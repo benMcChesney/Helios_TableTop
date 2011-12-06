@@ -1,0 +1,86 @@
+<controls>
+    <SliderFloat_angleSpread>
+        <name>angleSpread</name>
+        <value>-0.314159</value>
+    </SliderFloat_angleSpread>
+    <SliderFloat_distance_from_Node>
+        <name>distance from Node</name>
+        <value>59.508263</value>
+    </SliderFloat_distance_from_Node>
+    <SliderFloat_number_of_connections>
+        <name>number of connections</name>
+        <value>53.200001</value>
+    </SliderFloat_number_of_connections>
+    <SliderFloat_angleSpread_offset>
+        <name>angleSpread offset</name>
+        <value>-0.244055</value>
+    </SliderFloat_angleSpread_offset>
+    <SliderFloat_transparency>
+        <name>transparency</name>
+        <value>72.675003</value>
+    </SliderFloat_transparency>
+    <SliderFloat_bounds_Angle_Spread>
+        <name>bounds Angle Spread</name>
+        <value>0.439823</value>
+    </SliderFloat_bounds_Angle_Spread>
+    <SliderFloat_controlPoint_distance>
+        <name>controlPoint distance</name>
+        <value>25.320400</value>
+    </SliderFloat_controlPoint_distance>
+    <SliderFloat_bounds_number_of_connections>
+        <name>bounds number of connections</name>
+        <value>46.799999</value>
+    </SliderFloat_bounds_number_of_connections>
+    <SliderFloat_boundsAngle_offset>
+        <name>boundsAngle offset</name>
+        <value>-0.606222</value>
+    </SliderFloat_boundsAngle_offset>
+    <SliderFloat_out_of_bounds_transparency>
+        <name>out of bounds transparency</name>
+        <value>102.000000</value>
+    </SliderFloat_out_of_bounds_transparency>
+    <Toggle_Flip_1st_Angle>
+        <name>Flip 1st Angle</name>
+        <value>1</value>
+    </Toggle_Flip_1st_Angle>
+    <Toggle_Flip_2nd_Angle>
+        <name>Flip 2nd Angle</name>
+        <value>0</value>
+    </Toggle_Flip_2nd_Angle>
+    <SliderFloat_throwSpeed>
+        <name>throwSpeed</name>
+        <value>77.144997</value>
+    </SliderFloat_throwSpeed>
+    <SliderFloat_maxThrowDistance>
+        <name>maxThrowDistance</name>
+        <value>191.699997</value>
+    </SliderFloat_maxThrowDistance>
+    <SliderFloat_flickTweenTime>
+        <name>flickTweenTime</name>
+        <value>0.604000</value>
+    </SliderFloat_flickTweenTime>
+    <SliderFloat_minFlickSpeed>
+        <name>minFlickSpeed</name>
+        <value>0.767000</value>
+    </SliderFloat_minFlickSpeed>
+    <Toggle_Enable_Flicks>
+        <name>Enable Flicks</name>
+        <value>0</value>
+    </Toggle_Enable_Flicks>
+    <SliderFloat_Distance_Tween_Factor>
+        <name>Distance Tween Factor</name>
+        <value>0.927500</value>
+    </SliderFloat_Distance_Tween_Factor>
+    <SliderFloat_Angle_Tween_Factor>
+        <name>Angle Tween Factor</name>
+        <value>0.657500</value>
+    </SliderFloat_Angle_Tween_Factor>
+    <SliderFloat_lineTweenTime>
+        <name>lineTweenTime</name>
+        <value>40.160000</value>
+    </SliderFloat_lineTweenTime>
+    <Toggle_Animate_Lines>
+        <name>Animate Lines</name>
+        <value>0</value>
+    </Toggle_Animate_Lines>
+</controls>

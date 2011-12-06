@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="release" />
+	<File name="..\..\..\addons\ofxMultiTouch\src\ofxMultiTouch.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="1217" topLine="17" />
+	</File>
+	<File name="..\..\..\addons\ofxMultiTouch\src\ofxMultiTouch.h" open="0" top="0" tabpos="11">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="..\..\..\addons\ofxMultiTouch\src\ofxMultiTouchListener.h" open="0" top="0" tabpos="12">
+		<Cursor position="2325" topLine="33" />
+	</File>
+	<File name="..\..\..\addons\ofxTweenzor\src\Tween.h" open="0" top="0" tabpos="9">
+		<Cursor position="1053" topLine="34" />
+	</File>
+	<File name="..\..\..\addons\ofxVectorMath\src\ofxVec2f.h" open="0" top="0" tabpos="25">
+		<Cursor position="173" topLine="0" />
+	</File>
+	<File name="..\..\..\addons\ofxVectorMath\src\ofxVec3f.h" open="0" top="0" tabpos="7">
+		<Cursor position="162" topLine="0" />
+	</File>
+	<File name="..\..\helios_addons\HeliosAnalytics\src\HeliosTracker.h" open="0" top="0" tabpos="1">
+		<Cursor position="443" topLine="0" />
+	</File>
+	<File name="src\ContentItem.cpp" open="0" top="0" tabpos="9">
+		<Cursor position="39197" topLine="977" />
+	</File>
+	<File name="src\ContentItem.h" open="0" top="0" tabpos="8">
+		<Cursor position="10683" topLine="284" />
+	</File>
+	<File name="src\DetailNodeButton.h" open="0" top="0" tabpos="5">
+		<Cursor position="5001" topLine="169" />
+	</File>
+	<File name="src\NodeHolder.h" open="0" top="0" tabpos="11">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\RadialOfImage.h" open="0" top="0" tabpos="13">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\SlidingDoorImage.h" open="0" top="0" tabpos="6">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="src\XMLStorage.h" open="0" top="0" tabpos="14">
+		<Cursor position="223" topLine="14" />
+	</File>
+	<File name="src\customEventButton.h" open="0" top="0" tabpos="15">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\myMarkerButton.h" open="0" top="0" tabpos="16">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\myMtButton.h" open="0" top="0" tabpos="17">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\myMtEventButton.h" open="0" top="0" tabpos="18">
+		<Cursor position="896" topLine="16" />
+	</File>
+	<File name="src\myMtRotatableScalableItem.h" open="0" top="0" tabpos="10">
+		<Cursor position="536" topLine="21" />
+	</File>
+	<File name="src\myMtSlider.h" open="0" top="0" tabpos="19">
+		<Cursor position="218" topLine="2" />
+	</File>
+	<File name="src\ofxMtActionTouch.h" open="0" top="0" tabpos="20">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\ofxMtActionsHub.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="3578" topLine="78" />
+	</File>
+	<File name="src\ofxMtActionsHub.h" open="0" top="0" tabpos="22">
+		<Cursor position="1736" topLine="38" />
+	</File>
+	<File name="src\ofxMtActionsObject.cpp" open="0" top="0" tabpos="23">
+		<Cursor position="5595" topLine="180" />
+	</File>
+	<File name="src\ofxMtActionsObject.h" open="0" top="0" tabpos="8">
+		<Cursor position="946" topLine="25" />
+	</File>
+	<File name="src\ofxMtActionsObjectEvents.h" open="0" top="0" tabpos="24">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\testApp.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="12013" topLine="309" />
+	</File>
+	<File name="src\testApp.h" open="0" top="0" tabpos="4">
+		<Cursor position="4316" topLine="169" />
+	</File>
+</CodeBlocks_layout_file>

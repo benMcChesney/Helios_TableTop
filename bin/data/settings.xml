@@ -1,0 +1,36 @@
+<!-- menus -->
+<tier1Folder>tier1</tier1Folder>
+<tier1DetailFolder>tier1Detail</tier1DetailFolder>
+<startGFXFolder>mainNodes</startGFXFolder>
+<bigColorFolder>nodeParts_large</bigColorFolder>
+<smallColorFolder>nodeParts_small</smallColorFolder>
+<tier1IntroFolder>tier1Intro</tier1IntroFolder>
+<touchesPerPrize>100</touchesPerPrize>
+<nodeIdleInSeconds>60</nodeIdleInSeconds>
+<tableIdleInSeconds>62</tableIdleInSeconds>
+<slideshowFadeTimeInSeconds>0.1f</slideshowFadeTimeInSeconds>
+<slideshowDelayTimeInSeconds>5.5f</slideshowDelayTimeInSeconds>
+<minTouchSpeedRatio>1.0f</minTouchSpeedRatio>
+<maxTouchSpeedRatio>98.0f</maxTouchSpeedRatio>
+<maxThrowDistance>300.0f</maxThrowDistance>
+<menuItem>
+    <name>Category 1</name>
+    <path>icons_cloud.png</path>
+    <tier2>tier2/1_cloud</tier2>
+    <tier2Content>slideshows/1_cloud</tier2Content>
+    <hexColor>0xf57c21</hexColor>
+</menuItem>
+<menuItem>
+    <name>Category 2</name>
+    <path>icons_city.png</path>
+    <tier2>tier2/2_campus</tier2>
+    <tier2Content>slideshows/2_campus</tier2Content>
+    <hexColor>0x006eb7</hexColor>
+</menuItem>
+<menuItem>
+    <name>Category 3</name>
+    <path>icons_gears.png</path>
+    <tier2>tier2/3_operations</tier2>
+    <tier2Content>slideshows/3_operations</tier2Content>
+    <hexColor>0xee3124</hexColor>
+</menuItem>

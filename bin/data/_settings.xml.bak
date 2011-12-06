@@ -1,0 +1,28 @@
+<controls>
+    <SliderFloat_outer_angle_>
+        <_></_>
+        <name>outer angle : </name>
+        <value>90.000000</value>
+    </SliderFloat_outer_angle_>
+    <SliderFloat_outer_distance>
+        <name>outer distance</name>
+        <value>200.000000</value>
+    </SliderFloat_outer_distance>
+    <SliderFloat_inner_angle_>
+        <_></_>
+        <name>inner angle : </name>
+        <value>90.000000</value>
+    </SliderFloat_inner_angle_>
+    <SliderFloat_inner_distance>
+        <name>inner distance</name>
+        <value>200.000000</value>
+    </SliderFloat_inner_distance>
+    <SliderFloat_nOutsideLines>
+        <name>nOutsideLines</name>
+        <value>10.000000</value>
+    </SliderFloat_nOutsideLines>
+    <SliderFloat_nInsideLines>
+        <name>nInsideLines</name>
+        <value>0.000000</value>
+    </SliderFloat_nInsideLines>
+</controls>

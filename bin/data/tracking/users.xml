@@ -1,0 +1,319 @@
+<!-- all users -->
+<USER>
+    <ID>0</ID>
+    <Time>1.875000</Time>
+    <DateAndTime>10/7/2011 @ 16:42</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>1</ID>
+    <Time>4.813000</Time>
+    <DateAndTime>10/7/2011 @ 16:42</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>2</ID>
+    <InteractionTime>12.644000</InteractionTime>
+    <DateAndTime>10/7/2011 @ 16:47</DateAndTime>
+    <Selections>3</Selections>
+</USER>
+<USER>
+    <ID>3</ID>
+    <InteractionTime>21.018000</InteractionTime>
+    <DateAndTime>10/7/2011 @ 16:47</DateAndTime>
+    <Selections>2</Selections>
+</USER>
+<USER>
+    <ID>4</ID>
+    <InteractionTime>7.768000</InteractionTime>
+    <DateAndTime>10/7/2011 @ 16:48</DateAndTime>
+    <Selections>1</Selections>
+</USER>
+<USER>
+    <ID>5</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>10/7/2011 @ 16:48</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>6</ID>
+    <InteractionTime>15.531000</InteractionTime>
+    <DateAndTime>10/18/2011 @ 16:50</DateAndTime>
+    <Selections>1</Selections>
+</USER>
+<USER>
+    <ID>7</ID>
+    <InteractionTime>6.955999</InteractionTime>
+    <DateAndTime>10/18/2011 @ 16:50</DateAndTime>
+    <Selections>1</Selections>
+</USER>
+<USER>
+    <ID>8</ID>
+    <InteractionTime>6.059001</InteractionTime>
+    <DateAndTime>10/18/2011 @ 16:50</DateAndTime>
+    <Selections>1</Selections>
+</USER>
+<USER>
+    <ID>9</ID>
+    <InteractionTime>15.017002</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:9</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>10</ID>
+    <InteractionTime>98.339000</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:9</DateAndTime>
+    <Selections>4</Selections>
+</USER>
+<USER>
+    <ID>11</ID>
+    <InteractionTime>87.887998</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:10</DateAndTime>
+    <Selections>2</Selections>
+</USER>
+<USER>
+    <ID>12</ID>
+    <InteractionTime>40.917000</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:26</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>13</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:26</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>14</ID>
+    <InteractionTime>18.561002</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:27</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>15</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:27</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>16</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:27</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>17</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:27</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>18</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:30</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>19</ID>
+    <InteractionTime>9.054000</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:32</DateAndTime>
+    <Selections>2</Selections>
+</USER>
+<USER>
+    <ID>20</ID>
+    <InteractionTime>30.126000</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:47</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>21</ID>
+    <InteractionTime>11.512000</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:47</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>22</ID>
+    <InteractionTime>5.539999</InteractionTime>
+    <DateAndTime>11/1/2011 @ 15:48</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>23</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 10:54</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>24</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 10:56</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>25</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 10:56</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>26</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 10:59</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>27</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:9</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>28</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:11</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>29</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:11</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>30</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:12</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>31</ID>
+    <InteractionTime>47.437000</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>3</Selections>
+</USER>
+<USER>
+    <ID>32</ID>
+    <InteractionTime>3.173000</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>33</ID>
+    <InteractionTime>2.687999</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>34</ID>
+    <InteractionTime>1.620001</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>35</ID>
+    <InteractionTime>1.586000</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>36</ID>
+    <InteractionTime>1.521000</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>37</ID>
+    <InteractionTime>6.073999</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>38</ID>
+    <InteractionTime>5.490999</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>39</ID>
+    <InteractionTime>1.953001</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:13</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>40</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:14</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>41</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>11/3/2011 @ 11:14</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>42</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>12/5/2011 @ 23:51</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>43</ID>
+    <InteractionTime>0</InteractionTime>
+    <DateAndTime>12/5/2011 @ 23:51</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>44</ID>
+    <InteractionTime>29.064001</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:0</DateAndTime>
+    <Selections>2</Selections>
+</USER>
+<USER>
+    <ID>45</ID>
+    <InteractionTime>1.707001</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>46</ID>
+    <InteractionTime>5.104000</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>47</ID>
+    <InteractionTime>3.698997</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>48</ID>
+    <InteractionTime>2.109001</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>49</ID>
+    <InteractionTime>8.371002</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>50</ID>
+    <InteractionTime>9.659004</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>51</ID>
+    <InteractionTime>5.490005</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>
+<USER>
+    <ID>52</ID>
+    <InteractionTime>2.711998</InteractionTime>
+    <DateAndTime>12/6/2011 @ 0:1</DateAndTime>
+    <Selections>0</Selections>
+</USER>

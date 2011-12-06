@@ -1,0 +1,37 @@
+Hello!
+
+This project was created for a client as a multitouch / scale rotate informational table.
+This version is stripped down of all logos and brand specfic graphics and tracking.
+
+Tested with 007 on codeblocks::windows , and xcode on mac.
+
+The TUIO events don't seem to fire correctly on windows, so there is a mangabled hit/test mess.
+
+Additional Addons needed:
+
+OF libs:
+	ofxDirList
+	ofxNetwork
+	ofxOsc
+	ofxXmlSettings
+	
+Memo's libs:
+	ofxMSAInteractiveObject
+	ofxMultiTouch
+	ofxMultiTouchObject
+	ofxSimpleGuiToo
+
+Arturo's libs:
+	ofxTuioWrapper
+
+Nick's Libs
+	ofxTweenzor
+	
+	
+Keyboard commands while running : 
+"s" saves the gui settings
+"d" toggles debug tracing	
+"g" toggles drawing ofxSimpleGuiToo
+"t" 'locks' the table.
+"f" toggles fullscreen
+"m" toggles mouse on  / off 
