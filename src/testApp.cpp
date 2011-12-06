@@ -36,127 +36,8 @@ void testApp::setup(){
 	ofAddListener(myTuio.cursorRemoved,this,&testApp::tuioCursorRemoved);
 	ofAddListener(myTuio.cursorUpdated,this,&testApp::tuioCursorUpdated);
 
-    //color pool
-    colors = new ofColor[5] ;
-    ofColor col0 ;
-    col0.r = 0 ;
-    col0.g = 110 ;
-    col0.b = 183 ;
-    colors[0] = col0 ;
-
-    ofColor col1 ;
-    col1.r = 245 ;
-    col1.g = 124 ;
-    col1.b = 33 ;
-    colors[1] = col1 ;
-
-    ofColor col2 ;
-    col2.r = 124 ;
-    col2.g = 40 ;
-    col2.b = 141 ;
-    colors[2] = col2 ;
-
-    ofColor col3 ;
-    col3.r = 238 ;
-    col3.g = 49 ;
-    col3.b = 36 ;
-    colors[3] = col3 ;
-
-    ofColor col4 ;
-    col4.r = 248 ;
-    col4.g = 196 ;
-    col4.b = 15 ;
-    colors[4] = col4 ;
-
-    //Set the max / min number of touches to trigger dragging
-    int * dragRange = new int[2];
-    dragRange[0] = 1;
-    dragRange[1] = -4; //negative means the abs value and up
-
-    //Set the max / min number of touches to trigger rotation
-    int * rotateRange = new int[2] ;
-    rotateRange[0] = 2 ;
-    rotateRange[1] = 3 ;
-
-
-    //Set the max / min number of touches to trigger scaling
-    int * scaleRange = new int[2] ;
-    scaleRange[0] = 2 ;
-    scaleRange[1] = 3 ;
-
- 
-    //Get folder paths from XML
-    string menuFolderPath = XML.getValue( "tier1Folder" , "nothing" ) ;
-    string starterFolderPath = XML.getValue ( "startGFXFolder" , "nothing" ) ;
-    string largeBGPath = XML.getValue ( "bigColorFolder" , "nothing_small" ) ;
-    string smallBGPath = XML.getValue ( "smallColorFolder" , "nothing_large" ) ;
-    nItems = XML.getNumTags ( "menuItem" ) ;
-
-    //Create ofxDirList for large Color images
-    ofxDirList  largeBGDir ;
-    largeBGDir.listDir( largeBGPath ) ;
-    ofxDirList  smallBGDir ;
-    smallBGDir.listDir( smallBGPath ) ;
-
-    float nodeDelay = XML.getValue ( "nodeIdleInSeconds" , 30.0f ) ;
-    touchTimeDelay = XML.getValue ( "tableIdleInSeconds" , 50.0f ) ;
-    //Set the directory
-    DIR.listDir( starterFolderPath );
-
-    //Allocate the Menu Nodes
- 	menuNodes = new ContentItem[nItems];
-
-    numExtra = 3 ;
-    extraNodes = new ofPoint[numExtra] ;
-    extraNodes[0] = ofPoint ( -400 , -400 ) ;
-    extraNodes[1] = ofPoint ( 2570 , -650 ) ;
-    extraNodes[2] = ofPoint ( 2970 , 1530 ) ;
-
-    ofPoint * startLocs = new ofPoint[nItems] ;
-    startLocs[2] = ofPoint ( 200 , 750 ) ;
-    startLocs[0] = ofPoint ( 1475 , 770 ) ;
-    startLocs[1] = ofPoint ( 1550 , 165 ) ;
+    parseXML() ; 
     
-    float slideshowFadeTime = XML.getValue( "slideshowFadeTimeInSeconds" , 2.0f ) ;
-    float slideshowDelay = XML.getValue( "slideshowDelayTimeInSeconds" , 1.0f ) ;
-    
-    //you can now iterate through the files as you like
-    for(int i = 0; i < nItems; i++)
-    {
-        
-        menuNodes[i] = ContentItem( DIR.getPath(i) , largeBGDir.getPath(i) , smallBGDir.getPath(i) , startLocs[i] , 0xFFFFFF, nItems-i , i ,menuFolderPath , XML , colors[i] ) ;
-        
-        //Combine these into setupSlideshow
-        menuNodes[i].slideshowFadeTime = slideshowFadeTime ;
-        menuNodes[i].touchResetDelay = nodeDelay ;
-        menuNodes[i].slideshowDelayTime = slideshowDelay ;
-        //
-        
-        int nodeIndexToDraw = i-2 ;
-        int maxIndex = nItems;
-        nodeIndexToDraw = ( nodeIndexToDraw > maxIndex ) ? nodeIndexToDraw-maxIndex : nodeIndexToDraw ;
-        nodeIndexToDraw = ( nodeIndexToDraw < 0 ) ? nodeIndexToDraw +maxIndex : nodeIndexToDraw ;
-        menuNodes[i].menuNodeDrawTo = nodeIndexToDraw ;
-        if ( i % 2 != 0 || i == 0 )
-            menuNodes[i].randomNodeDrawTo = i ;
-        else
-            menuNodes[i].randomNodeDrawTo = -2 ;
-        menuNodes[i].registerForMultitouchEvents() ;
-        menuNodes[i].setIsDraggable( true , dragRange , 2 );
-        menuNodes[i].setIsRotatable( true , rotateRange , 2 ) ;
-        mtActionsHub.addObject( &menuNodes[i] ) ;
-
-    }
-
-    DIR.reset();
-    largeBGDir.reset() ;
-    smallBGDir.reset() ;
-    delete [] dragRange;
-    delete [] rotateRange ;
-    delete [] scaleRange ;
-    delete [] startLocs ;
-    delete [] colors ;
-
     Tweenzor::init();
 
     videos = new ofVideoPlayer[nItems] ;
@@ -807,5 +688,124 @@ void testApp::setupGUI()
 
 void testApp::parseXML() 
 {
+    //color pool
+    colors = new ofColor[5] ;
+    ofColor col0 ;
+    col0.r = 0 ;
+    col0.g = 110 ;
+    col0.b = 183 ;
+    colors[0] = col0 ;
     
+    ofColor col1 ;
+    col1.r = 245 ;
+    col1.g = 124 ;
+    col1.b = 33 ;
+    colors[1] = col1 ;
+    
+    ofColor col2 ;
+    col2.r = 124 ;
+    col2.g = 40 ;
+    col2.b = 141 ;
+    colors[2] = col2 ;
+    
+    ofColor col3 ;
+    col3.r = 238 ;
+    col3.g = 49 ;
+    col3.b = 36 ;
+    colors[3] = col3 ;
+    
+    ofColor col4 ;
+    col4.r = 248 ;
+    col4.g = 196 ;
+    col4.b = 15 ;
+    colors[4] = col4 ;
+    
+    //Set the max / min number of touches to trigger dragging
+    int * dragRange = new int[2];
+    dragRange[0] = 1;
+    dragRange[1] = -4; //negative means the abs value and up
+    
+    //Set the max / min number of touches to trigger rotation
+    int * rotateRange = new int[2] ;
+    rotateRange[0] = 2 ;
+    rotateRange[1] = 3 ;
+    
+    
+    //Set the max / min number of touches to trigger scaling
+    int * scaleRange = new int[2] ;
+    scaleRange[0] = 2 ;
+    scaleRange[1] = 3 ;
+    
+    //Get folder paths from XML
+    string menuFolderPath = XML.getValue( "tier1Folder" , "nothing" ) ;
+    string starterFolderPath = XML.getValue ( "startGFXFolder" , "nothing" ) ;
+    string largeBGPath = XML.getValue ( "bigColorFolder" , "nothing_small" ) ;
+    string smallBGPath = XML.getValue ( "smallColorFolder" , "nothing_large" ) ;
+    nItems = XML.getNumTags ( "menuItem" ) ;
+    
+    //Create ofxDirList for large Color images
+    ofxDirList  largeBGDir ;
+    largeBGDir.listDir( largeBGPath ) ;
+    ofxDirList  smallBGDir ;
+    smallBGDir.listDir( smallBGPath ) ;
+    
+    float nodeDelay = XML.getValue ( "nodeIdleInSeconds" , 30.0f ) ;
+    touchTimeDelay = XML.getValue ( "tableIdleInSeconds" , 50.0f ) ;
+    //Set the directory
+    DIR.listDir( starterFolderPath );
+    
+    //Allocate the Menu Nodes
+ 	menuNodes = new ContentItem[nItems];
+    
+    numExtra = 3 ;
+    extraNodes = new ofPoint[numExtra] ;
+    extraNodes[0] = ofPoint ( -400 , -400 ) ;
+    extraNodes[1] = ofPoint ( 2570 , -650 ) ;
+    extraNodes[2] = ofPoint ( 2970 , 1530 ) ;
+    
+    ofPoint * startLocs = new ofPoint[nItems] ;
+    startLocs[2] = ofPoint ( 200 , 750 ) ;
+    startLocs[0] = ofPoint ( 1475 , 770 ) ;
+    startLocs[1] = ofPoint ( 1550 , 165 ) ;
+    
+    float slideshowFadeTime = XML.getValue( "slideshowFadeTimeInSeconds" , 2.0f ) ;
+    float slideshowDelay = XML.getValue( "slideshowDelayTimeInSeconds" , 1.0f ) ;
+    
+    //you can now iterate through the files as you like
+    for(int i = 0; i < nItems; i++)
+    {
+        
+        menuNodes[i] = ContentItem( DIR.getPath(i) , largeBGDir.getPath(i) , smallBGDir.getPath(i) , startLocs[i] , 0xFFFFFF, nItems-i , i ,menuFolderPath , XML , colors[i] ) ;
+        
+        //Combine these into setupSlideshow
+        menuNodes[i].slideshowFadeTime = slideshowFadeTime ;
+        menuNodes[i].touchResetDelay = nodeDelay ;
+        menuNodes[i].slideshowDelayTime = slideshowDelay ;
+        //
+        
+        int nodeIndexToDraw = i-2 ;
+        int maxIndex = nItems;
+        nodeIndexToDraw = ( nodeIndexToDraw > maxIndex ) ? nodeIndexToDraw-maxIndex : nodeIndexToDraw ;
+        nodeIndexToDraw = ( nodeIndexToDraw < 0 ) ? nodeIndexToDraw +maxIndex : nodeIndexToDraw ;
+        menuNodes[i].menuNodeDrawTo = nodeIndexToDraw ;
+        if ( i % 2 != 0 || i == 0 )
+            menuNodes[i].randomNodeDrawTo = i ;
+        else
+            menuNodes[i].randomNodeDrawTo = -2 ;
+        menuNodes[i].registerForMultitouchEvents() ;
+        menuNodes[i].setIsDraggable( true , dragRange , 2 );
+        menuNodes[i].setIsRotatable( true , rotateRange , 2 ) ;
+        mtActionsHub.addObject( &menuNodes[i] ) ;
+        
+    }
+    
+    DIR.reset();
+    largeBGDir.reset() ;
+    smallBGDir.reset() ;
+    delete [] dragRange;
+    delete [] rotateRange ;
+    delete [] scaleRange ;
+    delete [] startLocs ;
+    delete [] colors ;
+
 }

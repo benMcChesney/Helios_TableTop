@@ -8,17 +8,13 @@
 #include "ofxMarkerHandler.h"
 #include "myMtButton.h"
 #include "myMtEventButton.h"
-#include "myMarkerButton.h"
-
 #include "ofxMtActionsHub.h"
 #include "myMtRotatableScalableItem.h"
-#include "myMtSlider.h"
 #include "ContentItem.h"
 
 #include "ofxTweenzor.h"
 #include "ofxXmlSettings.h"
 #include "ImageContainer.h"
-#include "XMLStorage.h"
 
 class testApp : public ofBaseApp{
 
