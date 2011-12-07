@@ -16,11 +16,14 @@
 #include "ofMain.h"
 #include "Tweenzor.h"
 #include "ofxXmlSettings.h"
+#include "PixelHitTestHub.h"
+#include "CorePixelHitTest.h"
+#include "PixelEvent.h"
 
 //This class is the 5 main circles that float around on the main screen
 //It extends smallfly's awesome example
 
-class ContentItem : public myMtRotatableScalableItem
+class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
 {
 
     public :
@@ -29,8 +32,8 @@ class ContentItem : public myMtRotatableScalableItem
         int nextState ;                 //Stores state for after transition
 
         float scale ;                   //size
-        int numTouches ;                //for prize counter
 
+        int hexInputID ;                //for ofxPixelHitTest
         ofImage image ;                 //icon
         ofImage bg ;                    //color background
         float bgScale ;
@@ -108,6 +111,9 @@ class ContentItem : public myMtRotatableScalableItem
         float slideshowFadeTime ;
         bool inFlickTransition ;
         float flickTweenValue ;
+    
+        //PixelHitTest
+        ofPtr<PixelHitTestHub> hitTestHub ; 
 
         ContentItem()
         {
@@ -119,7 +125,8 @@ class ContentItem : public myMtRotatableScalableItem
             inFlickTransition = false ;
         };
 
-        ContentItem( string filePath , string bgPath , string _node_bgPath , ofxVec2f pos , int color , int priorityLevel, int _menuIndex , string categoryPath , ofxXmlSettings _xml , ofColor _hexColor )
+        ContentItem( string filePath , string bgPath , string _node_bgPath , ofxVec2f pos , int color , int priorityLevel, int _menuIndex , string categoryPath , ofxXmlSettings _xml , ofColor _hexColor , 
+                ofPtr<PixelHitTestHub> _hitTestHub )
         {
 
             //Initialized Variables
@@ -143,100 +150,33 @@ class ContentItem : public myMtRotatableScalableItem
             tier1Node = -1 ;
             inTransition = false ;
             isFading = false ;
+            hitTestHub = _hitTestHub ; 
+            debugActive = false ; 
+            setColor ( color ) ;
 
-            //Allocate pointers :
-            tier2BackImage = new ofImage() ;
-            fadeImage1 = new ofImage() ;
-            fadeImage2 = new ofImage() ;
-
+            menuIndex = _menuIndex ; 
+            
             XML = _xml ;
             node_bgPath = _node_bgPath ;
-
+         
             //Load some images
             menuOpener.loadImage( "sustainable_Menu.png" ) ;
             starterImage.loadImage ( filePath ) ;
             image.loadImage ( filePath ) ;
             bg.loadImage( bgPath ) ;
-
-            bgScale = ( starterImage.width / bg.width ) * 0.95f ;
-
-            minSize = bg.width * .75 ;
-            maxSize = bg.width * 1 ;
+            
             setPosAndSize ( pos.x , pos.y ,  starterImage.width  , starterImage.height ) ;
-
-            float padding = bg.width * 0.5f ;
-            bounds = ofRectangle ( padding , padding , ofGetWidth() +- padding , ofGetHeight() +- padding ) ;
-
-            contentWidth = image.width ;
-            contentHeight = image.height ;
-
-            scale = 1.0f ;
-            setColor ( color ) ;
-            setPriorityLevel ( priorityLevel ) ;
-            state = 0 ;
-            nextState = -4 ;
-            rotation = 0 ;
-            menuIndex = _menuIndex;
-            drawLines = true ;
+                
             nItems = DIR.listDir(categoryPath);
-
-            categories = new NodeButton[nItems] ;
-            //Calculate angles between sub nodes
-            float angleStep = ( PI * 2.0f ) / (float)17 ;
-            float angleOffset = -angleStep ;
-            float nScale = ( width - minSize ) / ( maxSize - minSize ) ;
-            carouselRadius = width * radialFactor + ( -nScale * width * .0625f ) * radialFactor ; //width * radialFactor ;
-
-            string introPath = XML.getValue( "tier1IntroFolder" , "no intros Path" ) ;
-            ofxDirList introsDIR ;
-            int numIntros = introsDIR.listDir( introPath ) ;
-
-            for ( int i = 0 ; i < nItems ; i++ )
-            {
-                categories[i] = NodeButton( ) ;
-                float theta ;
-
-                //Category Buttons
-                if ( i != nItems-1 )
-                {
-                    theta = angleStep * (i-1) ;
-                    categories[i].setup( DIR.getPath(i) , node_bgPath , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
-                                        XML.getValue( "menuItem:tier2" , "no name" , i ),
-                                        XML.getValue( "menuItem:tier2Content" , "Nought content" , i ) ,
-                                        introsDIR.getPath( i ) ) ;
-                }
-
-                //Back Button
-                else
-                {
-                    theta = PI * 2.0f * 0.4f ;
-                    categories[i].setup( ofToDataPath("back_button_assets/icons_small_leaf.png") , ofToDataPath("back_button_assets/module_small_green.png") , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
-                                        XML.getValue( "menuItem:tier2" , "no name" , i ),
-                                        XML.getValue( "menuItem:tier2Content" , "Nought content" , i ) ,
-                                        introsDIR.getPath( i ) ) ;
-                }
-
-                ofPoint endPos = ofPoint ( cos( theta ) * carouselRadius , sin ( theta ) * carouselRadius ) ;
-                categories[i].endPoint = endPos ;
-                categories[i].setPos( categories[i].x , categories[i].y ) ;
-                categories[i].angle = theta ;
-                categories[i].angleLength = carouselRadius ;
-                categories[i].rotation = theta ;
-            }
-            touchResetDelay = 5.0f ;
-
-            float min = 0.1f ;
-            float max = 0.175f ;
-            int xDir = ofRandom ( 0 , 2 ) ;
-            int yDir = ofRandom ( 0 , 2 ) ;
-            velocity.x = ( xDir == 0 ) ? ofRandom ( -min , -max ) : ofRandom ( min , max ) ;
-            velocity.y = ( yDir == 0 ) ? ofRandom ( -min , -max ) : ofRandom ( min , max ) ;
-            selectedNodeBG.loadImage ( ofToDataPath ( "misc/module_small_active.png" ) ) ;
-            selectedNodeBG.setAnchorPercent ( 0.5f , 0.5f ) ;
         };
 
-
+    
+        //Custom Event Handler
+        void hexColorHandler ( const void * sender , PixelEventArgs &args )  ;
+    
+        void drawInputMap() ; 
         void setRandomAngles ( float minAngle , float maxAngle , int num  );
+    void setup() ;
 
         void changeState ( int newState ) ;
         void transitionInTierMenu( int tier ) ;

@@ -7,6 +7,8 @@ Tested with 007 on codeblocks::windows , and xcode on mac.
 
 The TUIO events don't seem to fire correctly on windows, so there is a mangabled hit/test mess.
 
+Also on new intel systems the hyper-threading ( or something else only on new Intel Chips ) seems to destroy std::vector, AMD has been fine though.
+
 Additional Addons needed:
 
 OF libs:

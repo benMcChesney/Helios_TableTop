@@ -4,8 +4,12 @@
 ofMutex mutex ;
 
 //--------------------------------------------------------------
-void testApp::setup(){
-    
+void testApp::setup()
+{
+
+    ofBackground(0,0,0) ; 
+    hitTestHub = (ofPtr<PixelHitTestHub>) new PixelHitTestHub() ; 
+    hitTestHub->setup( ofGetWidth() , ofGetHeight() , 0x000000 ) ; 
     doFlick = false ;
 	ofBackground(0, 0, 0);
     speedRatio = 1.0f ;
@@ -21,7 +25,6 @@ void testApp::setup(){
     //Load some initial assets
     background.loadImage( "branding/bg.png" ) ;
 
-
 	//Connect to Port
 	myTuio.connect(3333);
 
@@ -32,6 +35,7 @@ void testApp::setup(){
         cout << "unable to load settings.xml" << endl ;
     }
 
+    //Setup the TUIO Listeners
   	ofAddListener(myTuio.cursorAdded,this,&testApp::tuioCursorAdded);
 	ofAddListener(myTuio.cursorRemoved,this,&testApp::tuioCursorRemoved);
 	ofAddListener(myTuio.cursorUpdated,this,&testApp::tuioCursorUpdated);
@@ -40,6 +44,7 @@ void testApp::setup(){
     
     Tweenzor::init();
 
+    //Create a video for each ripple to play, in case they have to play asynchronously
     videos = new ofVideoPlayer[nItems] ;
 
     for ( int i = 0 ; i < nItems ; i++ )
@@ -48,18 +53,11 @@ void testApp::setup(){
         videos[i].loadMovie ( "RippleSmall_mp4_"+ofToString(i)+".mov" ) ;
         videos[i].setAnchorPercent( 0.5f , 0.5f ) ;
         videos[i].setLoopState( OF_LOOP_NONE ) ;
-
-    }
-
-
-    debug = false ;
-    for ( int i = 0 ; i < nItems ; i++ )
-    {
-        menuNodes[i].setDebug ( debug ) ;
     }
 
     maxThrowDistance = 300.0f ;
   
+    //Get random angles for lines
     for ( int i = 0 ; i < nItems ; i++ )
     {
         menuNodes[i].setRandomAngles ( 0.01f, PI * 2.0f  , 80 ) ;
@@ -82,13 +80,19 @@ void testApp::setup(){
 
     lastMouseX = 0.0f ;
     lastMouseY = 0.0f ;
+    
+    //Setup global event listener for if a child object gets selected
+    ofAddListener( PixelEvent::Instance()->pixelDownEvent , this , &testApp::hexColorHandler ) ;
+}
 
+void testApp::hexColorHandler ( const void * sender , PixelEventArgs &args ) 
+{
+    cout << "HEX COLOR HANDLER ! " << endl ; 
 }
 
 //--------------------------------------------------------------
 void testApp::update()
 {
-
     if ( isTouchIdle == false && ofGetElapsedTimef() > lastTouchTime + touchTimeDelay )
         toggleIdle() ;
 
@@ -177,6 +181,13 @@ void testApp::update()
 //--------------------------------------------------------------
 void testApp::draw(){
 
+    //Draw input resolution
+    hitTestHub->beginFbo() ; 
+        for ( int k = 0 ; k < nItems; k++ )
+        {
+            menuNodes[k].drawInputMap() ; 
+        }
+    hitTestHub->endFbo() ; 
     ofSetCircleResolution(125);
     //ofSetLineResolution ( 65 ) ;
 
@@ -196,21 +207,17 @@ void testApp::draw(){
 
     ofPoint menuPos ;
     ofPoint hereToThere , thereToHere , mid , targetPos , hereCP , thereCP ;
-    //glBlendFunc (GL_ONE, GL_ONE);
     ContentItem * iContent ;
 
     for ( int i = 0 ; i < nItems; i++ )
     {
         //Get position of the menu
         menuPos = ofPoint ( menuNodes[i].x , menuNodes[i].y ) ;
-
-
         iContent = &menuNodes[i] ;
 
         if ( menuNodes[i].drawLines == true )
         {
             int otherNodeIndex = menuNodes[i].menuNodeDrawTo ;
-          //  cout << i <<  " is drawing to : " << menuNodes[i].randomNodeDrawTo << endl ;
             ofPoint offscreenPosition = ofPoint() ;
             if( menuNodes[i].randomNodeDrawTo > 0 )
                 offscreenPosition = extraNodes[ menuNodes[i].randomNodeDrawTo ] ;
@@ -219,7 +226,6 @@ void testApp::draw(){
             float angleFactor2 = ( flipSecondAngle == true ) ? -1 : 1 ;
 
             alphaToUse = ( menuNodes[otherNodeIndex].linesAlpha > menuNodes[i].linesAlpha ) ? menuNodes[i].linesAlpha : menuNodes[otherNodeIndex].linesAlpha ;
-
 
             float targetDistance = 100.0f ;
             float dist = ofDist ( menuPos.x , menuPos.y , targetPos.x , targetPos.y ) ;
@@ -232,13 +238,10 @@ void testApp::draw(){
                 //Don't draw lines to itself and only if it's not selected
                 if ( i != otherNodeIndex && menuNodes[otherNodeIndex].drawLines == true )
                 {
-
                     ofSetColor( 255 , 255 , 255 , alphaToUse * outerLinesAlpha ) ;
                     targetPos = ofPoint ( menuNodes[otherNodeIndex].x , menuNodes[otherNodeIndex].y ) ;
 
                     float ratioAngle = outerMinAngle + outerFillamentAngle * ( iContent->randomAngles[p] ) ;
-                   // cout << " a: " << iContent->randomAngles[p] << endl ;
-//                    ratioAngle = ( ratioAngle < outerMinAngle ) ? outerMinAngle : ratioAngle ;
 
                     //Data to draw from here to menuNodes[k]
                     hereToThere = menuPos +- targetPos ;
@@ -378,6 +381,11 @@ void testApp::draw(){
     {
         //render TUIO Cursors and Objects
         drawRawCursors() ;
+        
+        ofPushMatrix() ; 
+        ofTranslate( ofGetWidth() * .7 , ofGetHeight() * .7 , 0 ) ; 
+        hitTestHub->drawMap( ) ; 
+        ofPopMatrix() ; 
     }
 
     gui.draw();
@@ -405,7 +413,6 @@ void testApp::drawRawCursors()
     }
     ofFill () ;
     myTuio.client->unlockCursorList() ;
-
 }
 
 void testApp::toggleIdle()
@@ -423,10 +430,6 @@ void testApp::toggleIdle()
             menuNodes[i].changeState ( 3 ) ;
         }
     }
-    else
-    {
-        
-    }
 };
 
 //--------------------------------------------------------------
@@ -442,6 +445,7 @@ void testApp::keyPressed(int key){
         case 'd':
         case 'D':
             debug = !debug ;
+            hitTestHub->debugDraw = !hitTestHub->debugDraw ; 
 
             for ( int i = 0 ; i < nItems ; i++ )
             {
@@ -478,7 +482,7 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-
+    hitTestHub->getHexAt( ofVec2f( x , y ) ) ; 
 }
 
 //--------------------------------------------------------------
@@ -499,6 +503,14 @@ void testApp::mousePressed(int x, int y, int button)
         mouseTouches++ ;
         TuioCursor tc = TuioCursor (  ofGetElapsedTimef() , 22 , mouseTouches, (float)x / ofGetWidth() , (float)y / ofGetHeight() ) ;
         tuioCursorAdded( tc ) ;
+    }
+    
+    int currentHex = hitTestHub->getHexAt( ofVec2f( x , y ) ) ; 
+    if ( currentHex > 0 )
+    {
+        //cout << "mouse Pressed! " << x << " , " << y << endl ; 
+        PixelEventArgs args = PixelEventArgs ( currentHex ) ;
+        ofNotifyEvent( PixelEvent::Instance()->pixelDownEvent , args , this ) ; 
     }
 }
 
@@ -775,12 +787,13 @@ void testApp::parseXML()
     for(int i = 0; i < nItems; i++)
     {
         
-        menuNodes[i] = ContentItem( DIR.getPath(i) , largeBGDir.getPath(i) , smallBGDir.getPath(i) , startLocs[i] , 0xFFFFFF, nItems-i , i ,menuFolderPath , XML , colors[i] ) ;
+        menuNodes[i] = ContentItem( DIR.getPath(i) , largeBGDir.getPath(i) , smallBGDir.getPath(i) , startLocs[i] , 0xFFFFFF, nItems-i , i ,menuFolderPath , XML , colors[i] , hitTestHub ) ;
         
         //Combine these into setupSlideshow
         menuNodes[i].slideshowFadeTime = slideshowFadeTime ;
         menuNodes[i].touchResetDelay = nodeDelay ;
         menuNodes[i].slideshowDelayTime = slideshowDelay ;
+        menuNodes[i].setup( ) ; 
         //
         
         int nodeIndexToDraw = i-2 ;

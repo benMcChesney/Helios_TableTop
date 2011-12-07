@@ -4,8 +4,10 @@
 #include "ofMain.h"
 #include "ofxMtObject.h"
 #include "Tweenzor.h"
+#include "CorePixelHitTest.h"
+#include "PixelEvent.h"
 
-class NodeButton : public ofxMtObject {
+class NodeButton : public ofxMtObject , public CorePixelHitTest {
 	
 public:
     
@@ -28,14 +30,24 @@ public:
     
     ofPoint * fillaments ; 
     
-    float scale ; 
+    float scale ;                   //size
     
+    int hexInputID ;                //for ofxPixelHitTest
     
     NodeButton() {
 
     }
     
-    //categories[i].setup( DIR.getPath(i) , i , XML.getValue( "menuItem:tier2" , "no name" , menuIndex ) , filePath ) ; 
+    
+    //Custom Event Handler
+    void hexColorHandler ( const void * sender , PixelEventArgs &args ) 
+    {
+        if ( args.inputHex == hexInputID ) 
+        {
+            cout << "Match for Hex color Handler found inside NodeButton!" << endl ; 
+        }
+    }
+    
     void setup( string path , string bgPath ,  int _nodeIndex , string centerPath , string _folderPath, string _slideshowPath , string introPath )
     {
         bounceTime = 0.0f ; 
@@ -51,48 +63,33 @@ public:
         fillaments = new ofPoint[5] ; 
         float angleStep = PI * 2 / 5.0f ;
         float radius = 25.0f ;  ; 
-
             
         for ( int i = 0 ; i < 5 ; i++ ) 
         {
             float theta = angleStep * i ;
             fillaments[i] = ofPoint ( cos( theta ) * radius  , sin ( theta ) * radius ) ; 
         }
-       // cout << "centerPath is " << centerPath << endl ; 
-       // cout << "folder path is : " << _folderPath <<endl ; 
-       // cout << "intro Path is : " << introPath << endl ; 
         
         centerDetail.loadImage( centerPath ) ; 
-      //  image.resize( image.width /2 , image.height /2 ) ; 
         setSize( image->width , image->height ) ; 
         nodeIndex = _nodeIndex ; 
         folderPath = _folderPath ; 
         slideshowPath = _slideshowPath ; 
-       // cout << "slideshow path is : " <<slideshowPath << endl ; 
+
 		col.r = 1 ; 
 		col.g = 1 ; 
 	    col.b = 1 ; 
         
         debug = false ; 
-    }
-    
-    void onMultiTouchDown(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL){
-
-	};
-	void onMultiTouchMoved(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL){
-
-    };
-	void onMultiTouchUp(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL){
-	};
-    
-    void update() 
-    {
-     //   cout << "updating!!" ; 
-    }
-    
-    void draw() 
-    {
         
+        //Setup global event listener for if a child object gets selected
+        ofAddListener( PixelEvent::Instance()->pixelDownEvent , this , &NodeButton::hexColorHandler ) ;
+    }
+    
+    void renderInputMap() 
+    {
+        ofSetHexColor ( hexInputID ) ; 
+        ofCircle ( x , y , bg.width * scale * 0.30f ) ; 
     }
     
     float bounceTime ; 
@@ -100,10 +97,7 @@ public:
     {
         bounceTime = time * .75f ; 
         Tweenzor::add( &scale , scale , 1.25f , 0.0f , time * 0.25f , EASE_IN_QUAD ) ; 
-//        Tweenzor::addCompleteListener( Tweenzor::getTween(&_x1), this, &testApp::onComplete);
         Tweenzor::addCompleteListener( Tweenzor::getTween( &scale ), this, &NodeButton::bounceEffectComplete );
-        //Tweenzor::addCompleteListener( Tweenzor::getTween(&_x1), this, &testApp::onComplete);
-   //     Tweenzor::getTween( &scale ) ->addListener(Tween::COMPLETE , this , &NodeButton::bounceEffectComplete ) ; 
     }
     
     void bounceEffectComplete ( float * args ) 
@@ -117,7 +111,6 @@ public:
         glColor4f(col.r,col.g,col.b,1) ; 
         glPushMatrix() ; 
         glTranslatef(x, y, 0);
-      //  glRotatef(180.0f*rotation/PI, 0, 0, 1);
         bg.draw( 0 , 0 , bg.width * scale , bg.height * scale ) ;
         image->draw ( 0, 0 , width * scale , height * scale ) ; 
         

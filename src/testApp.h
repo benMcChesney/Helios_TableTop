@@ -16,6 +16,10 @@
 #include "ofxXmlSettings.h"
 #include "ImageContainer.h"
 
+#include "PixelHitTestHub.h"
+#include "PixelEventArgs.h"
+#include "PixelEvent.h"
+
 class testApp : public ofBaseApp{
 
 public:
@@ -119,6 +123,15 @@ public:
 
     void setupGUI() ; 
     void parseXML() ; 
+    
+    //PixelHitTest
+    ofPtr<PixelHitTestHub> hitTestHub ;
+    
+    //Custom Event Handler
+    void hexColorHandler ( const void * sender , PixelEventArgs &args ) ;
+    
+  //  ofPtr<PixelEvent> eventHub ; 
+    
 };
 
 #endif
