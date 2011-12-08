@@ -38,7 +38,7 @@ public:
 
     }
     
-    
+    /*
     //Custom Event Handler
     void hexColorHandler ( const void * sender , PixelEventArgs &args ) 
     {
@@ -47,6 +47,7 @@ public:
             cout << "Match for Hex color Handler found inside NodeButton!" << endl ; 
         }
     }
+    */
     
     void setup( string path , string bgPath ,  int _nodeIndex , string centerPath , string _folderPath, string _slideshowPath , string introPath )
     {
@@ -83,7 +84,7 @@ public:
         debug = false ; 
         
         //Setup global event listener for if a child object gets selected
-        ofAddListener( PixelEvent::Instance()->pixelDownEvent , this , &NodeButton::hexColorHandler ) ;
+      //  ofAddListener( PixelEvent::Instance()->pixelDownEvent , this , &NodeButton::hexColorHandler ) ;
     }
     
     void renderInputMap() 
@@ -120,8 +121,9 @@ public:
         if ( debug == true ) 
         {
             ofSetColor ( 255 , 255 , 255 ) ; 
-            ofDrawBitmapString( "folderPath: " + folderPath , x + -125 , y - 55 ) ; 
-            ofDrawBitmapString( "centerPath: " + slideshowPath , x + -125 , y  -25 ) ; 
+            ofDrawBitmapString( "stagePos : " +ofToString( stagePos.x ) + " " + ofToString ( stagePos.y ) , x + -125 , y - 55 ) ; 
+            //ofDrawBitmapString( "folderPath: " + folderPath , x + -125 , y - 55 ) ; 
+            //ofDrawBitmapString( "centerPath: " + slideshowPath , x + -125 , y  -25 ) ; 
         }
     };
 	

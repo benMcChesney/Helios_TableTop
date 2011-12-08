@@ -48,10 +48,10 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         bool playSubNode ;              //play video behind subnode or behind main app
         float videoAlpha ;              //fade in  / out for transitions
 
-        // we will have a dynaimic number of categories, based on the content of a directory:
+        // we will have a dynaimic number of nodes, based on the content of a directory:
         int 		  nItems;
         int           tier1Node ;           //current content tier1 selected
-        NodeButton	* categories ;          //Array of nodeButtons ( TIER1 )
+        NodeButton	* nodes ;          //Array of nodeButtons ( TIER1 )
         ofxDirList    DIR;                  //Directory list to load files
 
         string node_bgPath ;
@@ -108,7 +108,6 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         bool playSelectedSoundFlag ;
 
         bool inBoundsTransition ;
-        float slideshowFadeTime ;
         bool inFlickTransition ;
         float flickTweenValue ;
     

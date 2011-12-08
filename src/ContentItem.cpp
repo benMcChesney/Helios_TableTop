@@ -50,6 +50,7 @@ void ContentItem::changeState ( int newState )
             break ;
 
 
+            //Idle Bouncing Around
         case 3 :
             state = newState ;
             break ;
@@ -86,7 +87,7 @@ void ContentItem::setup( )
     drawLines = true ;
 
     
-    categories = new NodeButton[nItems] ;
+    nodes = new NodeButton[nItems] ;
     //Calculate angles between sub nodes
     float angleStep = ( PI * 2.0f ) / (float)17 ;
     float angleOffset = -angleStep ;
@@ -102,15 +103,15 @@ void ContentItem::setup( )
     
     for ( int i = 0 ; i < nItems ; i++ )
     {
-        categories[i] = NodeButton( ) ; 
-        categories[i].hexInputID = hitTestHub->getColorfulUniqueHex() ; 
+        nodes[i] = NodeButton( ) ; 
+        nodes[i].hexInputID = hitTestHub->getColorfulUniqueHex() ; 
         float theta ;
         
         //Category Buttons
         if ( i != nItems-1 )
         {
             theta = angleStep * (i-1) ;
-            categories[i].setup( DIR.getPath(i) , node_bgPath , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
+            nodes[i].setup( DIR.getPath(i) , node_bgPath , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
                                 XML.getValue( "menuItem:tier2" , "no name" , i ),
                                 XML.getValue( "menuItem:tier2Content" , "Nought content" , i ) ,
                                 introsDIR.getPath( i ) ) ;
@@ -120,20 +121,20 @@ void ContentItem::setup( )
         else
         {
             theta = PI * 2.0f * 0.4f ;
-            categories[i].setup( ofToDataPath("back_button_assets/icons_small_leaf.png") , ofToDataPath("back_button_assets/module_small_green.png") , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
+            nodes[i].setup( ofToDataPath("back_button_assets/icons_small_leaf.png") , ofToDataPath("back_button_assets/module_small_green.png") , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
                                 XML.getValue( "menuItem:tier2" , "no name" , i ),
                                 XML.getValue( "menuItem:tier2Content" , "Nought content" , i ) ,
                                 introsDIR.getPath( i ) ) ;
         }
         
         ofPoint endPos = ofPoint ( cos( theta ) * carouselRadius , sin ( theta ) * carouselRadius ) ;
-        categories[i].endPoint = endPos ;
-        categories[i].setPos( categories[i].x , categories[i].y ) ;
-        categories[i].angle = theta ;
-        categories[i].angleLength = carouselRadius ;
-        categories[i].rotation = theta ;
+        nodes[i].endPoint = endPos ;
+        nodes[i].setPos( nodes[i].x , nodes[i].y ) ;
+        nodes[i].angle = theta ;
+        nodes[i].angleLength = carouselRadius ;
+        nodes[i].rotation = theta ;
         
-        hitTestHub->addItem( &categories[i] ) ; 
+        hitTestHub->addItem( &nodes[i] ) ; 
     }
     touchResetDelay = 5.0f ;
     
@@ -200,18 +201,18 @@ void ContentItem::transitionInTierMenu( int tier )
         inTransition = true ;
         for ( int i = 0 ; i < nItems ; i++ )
         {
-            float combinedAngle = rotation + categories[i].angle ;
-            categories[i].angleLength = nLength ; //width * radialFactor ;
-            float radius = categories[i].angleLength ;
-            ofPoint newEndPoint ( cos ( categories[i].angle ) * radius , sin ( categories[i].angle ) * radius ) ;
-            categories[i].endPoint = newEndPoint ;
+            float combinedAngle = rotation + nodes[i].angle ;
+            nodes[i].angleLength = nLength ; //width * radialFactor ;
+            float radius = nodes[i].angleLength ;
+            ofPoint newEndPoint ( cos ( nodes[i].angle ) * radius , sin ( nodes[i].angle ) * radius ) ;
+            nodes[i].endPoint = newEndPoint ;
 
             float delay = (float)i * .06f ;
-            Tweenzor::add( &categories[i].x , 0, categories[i].endPoint.x, delay, transitionSpeed, EASE_OUT_QUAD );
-            Tweenzor::add( &categories[i].y , 0, categories[i].endPoint.y, delay, transitionSpeed, EASE_OUT_QUAD );
+            Tweenzor::add( &nodes[i].x , 0, nodes[i].endPoint.x, delay, transitionSpeed, EASE_OUT_QUAD );
+            Tweenzor::add( &nodes[i].y , 0, nodes[i].endPoint.y, delay, transitionSpeed, EASE_OUT_QUAD );
         }
-        if (   Tweenzor::getTween( &categories[nItems-1].y ) != NULL )
-            Tweenzor::removeCompleteListener( Tweenzor::getTween( &categories[nItems-1].y ) ) ; 
+        if (   Tweenzor::getTween( &nodes[nItems-1].y ) != NULL )
+            Tweenzor::removeCompleteListener( Tweenzor::getTween( &nodes[nItems-1].y ) ) ; 
         
         Tweenzor::add( &bgScale , bgScale , 1.0f , (nItems-1)*.02f , transitionSpeed , EASE_OUT_QUAD ) ;
 
@@ -226,8 +227,8 @@ void ContentItem::transitionInTierMenu( int tier )
 void ContentItem::transitionTier1Complete ( float * args )
 {
     
-    if ( Tweenzor::getTween( &categories[nItems-1].y ) != NULL )
-        Tweenzor::removeCompleteListener( Tweenzor::getTween( &categories[nItems-1].y ) ) ; 
+    if ( Tweenzor::getTween( &nodes[nItems-1].y ) != NULL )
+        Tweenzor::removeCompleteListener( Tweenzor::getTween( &nodes[nItems-1].y ) ) ; 
     
     transitionComplete( args ) ;
 }
@@ -252,14 +253,59 @@ void ContentItem::transitionOutComplete ( float * args )
     playSubNode = false ;
 }
 
-void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args ) { 
-
-   // cout << "Content Item handler ~! " << endl ; 
-    if ( args.inputHex == hexInputID ) 
+void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args ) 
+{ 
+    int inputHex = args.inputHex ; 
+    //If the color is on the main content
+    if ( inputHex == hexInputID ) 
     {
-        cout << "Match for Hex color Handler found inside ContentItem !" << endl ; 
+        cout << "Main Node was hit" << endl ; 
+        //Toggle off all other buttons
+        if ( state == 0 || state == 3 )
+        {
+            changeState ( 1 ) ;
+            lastTouchTime = ofGetElapsedTimef() ; 
+        }
     }
-    
+    else
+    {
+        for ( int i = 0 ; i < nItems ; i++ )
+        {
+            if ( inputHex == nodes[i].hexInputID ) 
+            {
+                lastTouchTime = ofGetElapsedTimef() ; 
+                
+                //Back Button was selected
+                if ( i == nItems-1 )
+                {
+                    cout << "Back button was selected!" << endl ; 
+                    nextState = 0 ;
+                    tier1Node = i ;
+                    timeOut() ;
+                    playSubNode = true ;
+                }
+                //An image was selected
+                else
+                {
+                    cout << "Image button selected!" << endl ; 
+                    tier1Node = i ;
+                    fadeImage1 = &nodes[i].centerDetail ;
+                    fadeImage2 = &image ;
+                    fadeImages( &nodes[i].centerDetail , &image , 0.5f , 0.0f , true ) ;  
+                }
+
+                //If a valid node was selected
+                if ( tier1Node > -2 )
+                {
+                    Tweenzor::add( &videoAlpha , 0.0f , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
+                    playSubNode = true ;
+                    playVideoFlag = true ;
+                    playVideo = true ;
+                    nodes[i].bounceSelectedEffect( .55f ) ;
+                }
+            }
+        }
+    }
 } 
 
 void ContentItem::drawInputMap() 
@@ -271,7 +317,7 @@ void ContentItem::drawInputMap()
        
     for ( int i = 0 ; i < nItems ; i++ ) 
     {
-        categories[i].renderInputMap() ; 
+        nodes[i].renderInputMap() ; 
     }
     
     ofSetHexColor( hexInputID ) ;
@@ -293,11 +339,11 @@ void ContentItem::transitionOutTierMenu( int tier )
         for ( int i = 0 ; i < nItems ; i++ )
         {
             float delay = (float) i * .04f + transitionSpeed ;
-            Tweenzor::add( &categories[i].x , categories[i].endPoint.x , 0, delay, transitionSpeed, EASE_IN_QUAD );
-            Tweenzor::add( &categories[i].y , categories[i].endPoint.y , 0, delay, transitionSpeed, EASE_IN_QUAD );
+            Tweenzor::add( &nodes[i].x , nodes[i].endPoint.x , 0, delay, transitionSpeed, EASE_IN_QUAD );
+            Tweenzor::add( &nodes[i].y , nodes[i].endPoint.y , 0, delay, transitionSpeed, EASE_IN_QUAD );
         }
         
-        Tweenzor::addCompleteListener(  Tweenzor::getTween( &categories[nItems-1].y ) , this, &ContentItem::transitionOutComplete ) ; 
+        Tweenzor::addCompleteListener(  Tweenzor::getTween( &nodes[nItems-1].y ) , this, &ContentItem::transitionOutComplete ) ; 
     }
 }
 
@@ -336,22 +382,21 @@ void ContentItem::timeOut()
         for ( int i = 0 ; i < nItems ; i++ )
         {
             float delay = (float)i * .04f ;
-            Tweenzor::add( &categories[i].x , categories[i].endPoint.x , 0, delay, transOutSpeed, EASE_IN_QUAD );
-            Tweenzor::add( &categories[i].y , categories[i].endPoint.y , 0, delay, transOutSpeed, EASE_IN_QUAD );
+            Tweenzor::add( &nodes[i].x , nodes[i].endPoint.x , 0, delay, transOutSpeed, EASE_IN_QUAD );
+            Tweenzor::add( &nodes[i].y , nodes[i].endPoint.y , 0, delay, transOutSpeed, EASE_IN_QUAD );
             
-            ////if (  Tweenzor::getTween( &categories[nItems-1].y ) != NULL )
-             ////       Tweenzor::removeCompleteListener(   Tweenzor::getTween( &categories[nItems-1].y ) ) ; 
+            ////if (  Tweenzor::getTween( &nodes[nItems-1].y ) != NULL )
+             ////       Tweenzor::removeCompleteListener(   Tweenzor::getTween( &nodes[nItems-1].y ) ) ; 
             
-            //    Tweenzor::getTween( &categories[nItems-1].y )->removeListener( Tween::COMPLETE ) ;
+            //    Tweenzor::getTween( &nodes[nItems-1].y )->removeListener( Tween::COMPLETE ) ;
             
-            //Tweenzor::getTween( &categories[nItems-1].y )->addListener( Tween::COMPLETE, this, &ContentItem::timeOutTransitionComplete );
-       ////     Tweenzor::addCompleteListener( Tweenzor::getTween( &categories[nItems-1].y ) ,  this, &ContentItem::timeOutTransitionComplete ) ; 
-            fadeImage1 = &starterImage ;
-            Tweenzor::add( &fadeImage1Scale , fadeImage1Scale , 0.25f , transOutSpeed , transOutSpeed , EASE_IN_QUAD ) ;
-            fadeImage2 = &image ;
-
-            fadeImages( &starterImage , &image , transOutSpeed ) ;
+            //Tweenzor::getTween( &nodes[nItems-1].y )->addListener( Tween::COMPLETE, this, &ContentItem::timeOutTransitionComplete );
         }
+        Tweenzor::addCompleteListener( Tweenzor::getTween( &nodes[nItems-1].y ) ,  this, &ContentItem::timeOutTransitionComplete ) ; 
+        fadeImage1 = &starterImage ;
+        Tweenzor::add( &fadeImage1Scale , fadeImage1Scale , 0.25f , transOutSpeed , transOutSpeed , EASE_IN_QUAD ) ;
+        fadeImage2 = &image ;
+        fadeImages( &starterImage , &image , transOutSpeed ) ;
     }
 
     
@@ -394,6 +439,7 @@ void ContentItem::onMultiTouchDown(float _x, float _y, int touchId, ofxMultiTouc
 
 int ContentItem::forwardedTouchDown(float _x, float _y, int touchId, ofxMultiTouchCustomData *data )
 {
+    //Toggle off interactivity when in transitionins
    if ( inTransition == true || isFading == true || autoTransitionFading == true )
    {
         return -4 ;
@@ -403,10 +449,11 @@ int ContentItem::forwardedTouchDown(float _x, float _y, int touchId, ofxMultiTou
     int checkLength = nItems ;
     if ( state == 1 )
     {
+        /*
         for ( int i = 0 ; i < checkLength ; i++ )
         {
-            float dist = ofDist(screenPos.x, screenPos.y, categories[i].stagePos.x , categories[i].stagePos.y ) ;
-            if ( dist < categories[i].width /2  )
+            float dist = ofDist(screenPos.x, screenPos.y, nodes[i].stagePos.x , nodes[i].stagePos.y ) ;
+            if ( dist < nodes[i].width /2  )
             {
                 if ( i == checkLength-1 )
                 {
@@ -420,9 +467,9 @@ int ContentItem::forwardedTouchDown(float _x, float _y, int touchId, ofxMultiTou
                 else
                 {
                     tier1Node = i ;
-                    fadeImage1 = &categories[i].centerDetail ;
+                    fadeImage1 = &nodes[i].centerDetail ;
                     fadeImage2 = &image ;
-                    fadeImages( &categories[i].centerDetail , &image , 0.5f , 0.0f , true ) ;
+                    fadeImages( &nodes[i].centerDetail , &image , 0.5f , 0.0f , true ) ;
                         
                     return  tier1Node ;
                 }
@@ -433,11 +480,12 @@ int ContentItem::forwardedTouchDown(float _x, float _y, int touchId, ofxMultiTou
                     playSubNode = true ;
                     playVideoFlag = true ;
                     playVideo = true ;
-                    categories[i].bounceSelectedEffect( .55f ) ;
+                    nodes[i].bounceSelectedEffect( .55f ) ;
 
                 }
             }
         }
+         */
     }
 
     if ( state != 0 && state != 3 )
@@ -481,7 +529,7 @@ void ContentItem::setDebug ( bool d )
     {
         for ( int i = 0 ; i < nItems ; i++ )
         {
-            categories[i].debug = d ;
+            nodes[i].debug = d ;
         }
     }
 };
@@ -555,8 +603,9 @@ void ContentItem::onUpdate()
     else
         Tweenzor::add( &scale , scale , 1.0f , 0.0f , 0.15f , EASE_OUT_QUAD ) ;
 
-    if ( inTransition == true )
-        return ;
+    //This is not getting reset
+//    if ( inTransition == true )
+//        return ;
 
     //normalized scale 0.0 <-> 1.0
     float nScale = ( width - minSize ) / ( maxSize - minSize ) ;
@@ -565,22 +614,22 @@ void ContentItem::onUpdate()
     {
         for ( int i = 0 ; i < nItems ; i++ )
         {
-            float combinedAngle = rotation + categories[i].angle ;
-            categories[i].angleLength = nLength ;
+            float combinedAngle = rotation + nodes[i].angle ;
+            nodes[i].angleLength = nLength ;
 
-            float radius = categories[i].angleLength ;
-            ofPoint newEndPoint ( cos ( categories[i].angle ) * radius , sin ( categories[i].angle ) * radius ) ;
+            float radius = nodes[i].angleLength ;
+            ofPoint newEndPoint ( cos ( nodes[i].angle ) * radius , sin ( nodes[i].angle ) * radius ) ;
             ofPoint newStagePos ( x + cos ( combinedAngle ) * radius , y + sin ( combinedAngle ) * radius ) ;
-            categories[i].stagePos = newStagePos ;
-            categories[i].endPoint = newEndPoint ;
+            nodes[i].stagePos = newStagePos ;
+            nodes[i].endPoint = newEndPoint ;
 
             if ( inTransition == false )
             {
-                if ( Tweenzor::getTween( &categories[i].y ) != NULL )
-                    Tweenzor::removeCompleteListener ( Tweenzor::getTween( &categories[i].y ) ) ; 
-                  //  Tweenzor::getTween( &categories[i].y )->removeListener( Tween::COMPLETE ) ;
-                Tweenzor::add( &categories[i].x , categories[i].x , newEndPoint.x , 0.0f , 0.1f , EASE_OUT_QUAD ) ;
-                Tweenzor::add( &categories[i].y , categories[i].y , newEndPoint.y , 0.0f , 0.1f , EASE_OUT_QUAD ) ;
+                if ( Tweenzor::getTween( &nodes[i].y ) != NULL )
+                    Tweenzor::removeCompleteListener ( Tweenzor::getTween( &nodes[i].y ) ) ; 
+                  //  Tweenzor::getTween( &nodes[i].y )->removeListener( Tween::COMPLETE ) ;
+                Tweenzor::add( &nodes[i].x , nodes[i].x , newEndPoint.x , 0.0f , 0.1f , EASE_OUT_QUAD ) ;
+                Tweenzor::add( &nodes[i].y , nodes[i].y , newEndPoint.y , 0.0f , 0.1f , EASE_OUT_QUAD ) ;
             }
         }
     }
@@ -616,10 +665,10 @@ void ContentItem::drawContent()
             ofSetColor ( 255 , 255 , 255 , 180 ) ;
             for ( int k = 0 ; k < 5 ; k++ )
             {
-                ofLine( categories[i].fillaments[k].x , categories[i].fillaments[k].y , categories[i].x , categories[i].y ) ;
+                ofLine( nodes[i].fillaments[k].x , nodes[i].fillaments[k].y , nodes[i].x , nodes[i].y ) ;
             }
             ofSetColor ( 255 , 255 , 255 ) ;
-            categories[i].render( ) ;
+            nodes[i].render( ) ;
         }
     }
 

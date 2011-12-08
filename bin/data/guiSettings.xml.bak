@@ -1,7 +1,7 @@
 <controls>
     <SliderFloat_angleSpread>
         <name>angleSpread</name>
-        <value>-0.314159</value>
+        <value>-3.518584</value>
     </SliderFloat_angleSpread>
     <SliderFloat_distance_from_Node>
         <name>distance from Node</name>
@@ -9,15 +9,15 @@
     </SliderFloat_distance_from_Node>
     <SliderFloat_number_of_connections>
         <name>number of connections</name>
-        <value>53.200001</value>
+        <value>57.199997</value>
     </SliderFloat_number_of_connections>
     <SliderFloat_angleSpread_offset>
         <name>angleSpread offset</name>
-        <value>-0.244055</value>
+        <value>0.785398</value>
     </SliderFloat_angleSpread_offset>
     <SliderFloat_transparency>
         <name>transparency</name>
-        <value>72.675003</value>
+        <value>99.449997</value>
     </SliderFloat_transparency>
     <SliderFloat_bounds_Angle_Spread>
         <name>bounds Angle Spread</name>
@@ -25,7 +25,7 @@
     </SliderFloat_bounds_Angle_Spread>
     <SliderFloat_controlPoint_distance>
         <name>controlPoint distance</name>
-        <value>25.320400</value>
+        <value>34.000000</value>
     </SliderFloat_controlPoint_distance>
     <SliderFloat_bounds_number_of_connections>
         <name>bounds number of connections</name>
@@ -37,7 +37,7 @@
     </SliderFloat_boundsAngle_offset>
     <SliderFloat_out_of_bounds_transparency>
         <name>out of bounds transparency</name>
-        <value>102.000000</value>
+        <value>62.475002</value>
     </SliderFloat_out_of_bounds_transparency>
     <Toggle_Flip_1st_Angle>
         <name>Flip 1st Angle</name>
@@ -49,11 +49,11 @@
     </Toggle_Flip_2nd_Angle>
     <SliderFloat_throwSpeed>
         <name>throwSpeed</name>
-        <value>77.144997</value>
+        <value>83.450005</value>
     </SliderFloat_throwSpeed>
     <SliderFloat_maxThrowDistance>
         <name>maxThrowDistance</name>
-        <value>191.699997</value>
+        <value>160.099991</value>
     </SliderFloat_maxThrowDistance>
     <SliderFloat_flickTweenTime>
         <name>flickTweenTime</name>
@@ -61,26 +61,10 @@
     </SliderFloat_flickTweenTime>
     <SliderFloat_minFlickSpeed>
         <name>minFlickSpeed</name>
-        <value>0.767000</value>
+        <value>2.101000</value>
     </SliderFloat_minFlickSpeed>
     <Toggle_Enable_Flicks>
         <name>Enable Flicks</name>
-        <value>0</value>
+        <value>1</value>
     </Toggle_Enable_Flicks>
-    <SliderFloat_Distance_Tween_Factor>
-        <name>Distance Tween Factor</name>
-        <value>0.927500</value>
-    </SliderFloat_Distance_Tween_Factor>
-    <SliderFloat_Angle_Tween_Factor>
-        <name>Angle Tween Factor</name>
-        <value>0.657500</value>
-    </SliderFloat_Angle_Tween_Factor>
-    <SliderFloat_lineTweenTime>
-        <name>lineTweenTime</name>
-        <value>40.160000</value>
-    </SliderFloat_lineTweenTime>
-    <Toggle_Animate_Lines>
-        <name>Animate Lines</name>
-        <value>0</value>
-    </Toggle_Animate_Lines>
 </controls>

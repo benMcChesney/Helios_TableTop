@@ -38,7 +38,8 @@ public:
 	void windowResized(int w, int h);
 
     //Stuff I added
-    void drawRawCursors( );
+    void drawRawCursors( );         //included in TUIO but good to know how to draw 
+    void drawNodeLines( ) ; 
 
 	//TUIO CALLBACK FUNCTIONS
 	void tuioCursorAdded(TuioCursor & tcur);
