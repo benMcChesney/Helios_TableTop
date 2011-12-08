@@ -1,39 +1,46 @@
+/*
+	Ben McChesney of Helios Interactive
+	San Francisco , CA
+*/
+
 Hello!
 
 This project was created for a client as a multitouch / scale rotate informational table.
-This version is stripped down of all logos and brand specfic graphics and tracking.
+This version is stripped down of all logos and brand specfic graphics and tracking, and I thought it would be useful as a springboard for touch tables. 
 
 Tested with 007 on codeblocks::windows , and xcode on mac.
 
-The TUIO events don't seem to fire correctly on windows, so there is a mangabled hit/test mess.
+The TUIO events didn't seem to dispatch ofxMultiTouch events correct on Windows, so I changed the events to use ofxPixelHitTest instead.
 
 Also on new intel systems the hyper-threading ( or something else only on new Intel Chips ) seems to destroy std::vector, AMD has been fine though.
 
 Additional Addons needed:
 
 OF libs:
-	ofxDirList
 	ofxNetwork
 	ofxOsc
 	ofxXmlSettings
 	
-Memo's libs:
+Memo's libs ( https://github.com/memo )
 	ofxMSAInteractiveObject
 	ofxMultiTouch
 	ofxMultiTouchObject
 	ofxSimpleGuiToo
 
-Arturo's libs:
+Arturo's libs ( https://github.com/arturoc/ )
 	ofxTuioWrapper
 
-Nick's Libs
+Nick's Libs ( https://github.com/NickHardeman/) 
 	ofxTweenzor
+	
+Ben McChesney's Libs: ( https://github.com/benMcChesney/) 
+ofxPixelHitTest
 	
 	
 Keyboard commands while running : 
 "s" saves the gui settings
-"d" toggles debug tracing	
-"g" toggles drawing ofxSimpleGuiToo
-"t" 'locks' the table.
+"d" toggles debug data rendering	
+"g" toggles the visibility =of ofxSimpleGuiToo
+"i"	toggles the visibility of the Input Map
 "f" toggles fullscreen
 "m" toggles mouse on  / off 
