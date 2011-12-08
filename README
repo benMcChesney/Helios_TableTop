@@ -14,7 +14,8 @@ The TUIO events didn't seem to dispatch ofxMultiTouch events correct on Windows,
 
 Also on new intel systems the hyper-threading ( or something else only on new Intel Chips ) seems to destroy std::vector, AMD has been fine though.
 
-Additional Addons needed:
+
+Thanks so much for the community for providing the following addons that make this possible : 
 
 OF libs:
 	ofxNetwork
@@ -33,14 +34,22 @@ Arturo's libs ( https://github.com/arturoc/ )
 Nick's Libs ( https://github.com/NickHardeman/) 
 	ofxTweenzor
 	
-Ben McChesney's Libs: ( https://github.com/benMcChesney/) 
-ofxPixelHitTest
+Ben McChesney's Libs: ( https://github.com/benMcChesney/ ) 
+	ofxPixelHitTest
 	
+SmallFly's Libs :
+	ofxMultiTouchActions ( http://code.google.com/p/smallfly/downloads/list
+
+
+TUIO Simulator ( if you do not have a touch screen )
+	http://reactable.iua.upf.edu/?software
+	
+If I missed anyone sorry! Let me know and I'll update this README.	
 	
 Keyboard commands while running : 
 "s" saves the gui settings
 "d" toggles debug data rendering	
-"g" toggles the visibility =of ofxSimpleGuiToo
+"g" toggles the visibility of ofxSimpleGuiToo
 "i"	toggles the visibility of the Input Map
 "f" toggles fullscreen
 "m" toggles mouse on  / off 
