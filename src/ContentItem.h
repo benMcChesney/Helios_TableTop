@@ -32,24 +32,20 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         int state ;                     //Dictates Behaivor
         int nextState ;                 //Stores state for after transition
 
-        float scale ;                   //size
+        float scale ;                   //size of main Image
 
         int hexInputID ;                //for ofxPixelHitTest
-        ofImage image ;                 //icon
-        ofImage bg ;                    //color background
-        float bgScale ;
+        float bgScale ;                 //size of background Image
         int menuIndex ;                 //which menu index ? For directory loading
 
         float linesAlpha ;              //0-1
         bool drawLines ;
 
         bool debugActive ;
-
-        
-        bool playVideoFlag ;            //read by testApp to play movie from the beginning
+    
         bool playSubNode ;              //play video behind subnode or behind main app
         float videoAlpha ;              //fade in  / out for transitions
-        ofVec2f videoPosition ; 
+        ofVec2f videoPosition ;         //Where to play the video
 
         // we will have a dynaimic number of nodes, based on the content of a directory:
         int 		  nItems;
@@ -67,24 +63,13 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         //Radius of the carousel
         float carouselRadius ;
 
-        /*
-        //Image Fading Variables
-        bool isFading ;
-        ofImage * fadeImage1 ;
-        ofImage * fadeImage2 ;
-        float fadeAlpha1 ;
-        float fadeAlpha2 ;
-              */
-        CrossFadeImage crossFade ; 
-        float glowAlpha ;
-    
-    
-        
-        ofPoint nextStagePos , prevStagePos ;   //position of UI Images compared to the stage
+        CrossFadeImage crossFade ;
 
         //Assets
-       // ofImage menuOpener ;
         ofImage starterImage ;
+        ofImage image ;                 //icon
+        ofImage bg ;                    //color background
+
         float tweenValue ;
         bool inTransition ;
         bool playVideo ;
@@ -92,9 +77,6 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
 
         ofxXmlSettings  XML ;
         float radialFactor ;
-
-        ofImage selectedNodeBG ;
-        ofColor hexColor ;
 
         int menuNodeDrawTo ;
         int randomNodeDrawTo ;
@@ -122,14 +104,12 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
             inFlickTransition = false ;
         };
 
-        ContentItem( string filePath , string bgPath , string _node_bgPath , ofxVec2f pos , int color , int priorityLevel, int _menuIndex , string categoryPath , ofxXmlSettings _xml , ofColor _hexColor , 
-                ofPtr<PixelHitTestHub> _hitTestHub )
+        ContentItem( string filePath , string bgPath , string _node_bgPath , ofxVec2f pos , int priorityLevel, int _menuIndex , string categoryPath , ofxXmlSettings _xml , ofPtr<PixelHitTestHub> _hitTestHub )
         {
 
             //Initialized Variables
             inBoundsTransition = false ;
             inFlickTransition = false ;
-            glowAlpha = 0.0f ;
             fadeImage1Scale = 1.0f ;
             autoTransitionFading = false ;
             playSubNode = false ;
@@ -144,18 +124,14 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
 
             scale = 1.0f ; 
             bgScale = 1.0f ; 
-            hexColor = _hexColor ;
             hitTestHub = _hitTestHub ; 
             menuIndex = _menuIndex ; 
             XML = _xml ;
             node_bgPath = _node_bgPath ;
             
             crossFade = CrossFadeImage() ; 
-            setColor ( color ) ;
+            setColor ( 0xFFFFFF ) ;
          
-           // cout << "starterImage : " << filePath << endl ; 
-           // cout << "image : " << filePath << endl ; 
-           // cout << "bg : " << bgPath << endl ; 
             //Load some images
             starterImage.loadImage ( filePath ) ; 
             image.loadImage ( filePath ) ;  

@@ -100,7 +100,9 @@ void ContentItem::setup( )
         else
         {
             theta = PI * 2.0f * 0.4f ;
-            nodes[i].setup( ofToDataPath("back_button_assets/icons_small_leaf.png") , ofToDataPath("back_button_assets/module_small_green.png") , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ) ;
+            nodes[i].setup( ofToDataPath("back_button_assets/icons_small_back.png") , 
+                            ofToDataPath("back_button_assets/module_small_green.png") ,
+                           i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ) ;
         }
         
         ofPoint endPos = ofPoint ( cos( theta ) * carouselRadius , sin ( theta ) * carouselRadius ) ;
@@ -120,8 +122,6 @@ void ContentItem::setup( )
     int yDir = ofRandom ( 0 , 2 ) ;
     velocity.x = ( xDir == 0 ) ? ofRandom ( -min , -max ) : ofRandom ( min , max ) ;
     velocity.y = ( yDir == 0 ) ? ofRandom ( -min , -max ) : ofRandom ( min , max ) ;
-    selectedNodeBG.loadImage ( ofToDataPath ( "misc/module_small_active.png" ) ) ;
-    selectedNodeBG.setAnchorPercent ( 0.5f , 0.5f ) ;
     
     //Setup global event listener for if a child object gets selected
     ofAddListener(PixelEvent::Instance()->pixelDownEvent , this , &ContentItem::hexColorHandler ) ;
@@ -139,7 +139,6 @@ void ContentItem::setRandomAngles ( float minAngle , float maxAngle , int num  )
 void ContentItem::transitionInTierMenu( int tier )
 {
     playVideo = true ;
-    playVideoFlag = true ;
     playSubNode = true ;
 
     Tweenzor::add( &videoAlpha , 0.0f , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
@@ -156,7 +155,6 @@ void ContentItem::transitionInTierMenu( int tier )
         if ( state == 0 || state == 3 )
         {
             playSubNode = false ;
-            Tweenzor::add( &glowAlpha , glowAlpha , 1.0 , 0.0f , transitionSpeed , EASE_IN_QUAD ) ;
             Tweenzor::add( &fadeImage1Scale , 0.1f , 1.0f , 0.1f , transitionSpeed , EASE_OUT_QUAD ) ;
         }
         if ( width < minSize )
@@ -240,10 +238,9 @@ void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args )
         {
             changeState ( 1 ) ;
             lastTouchTime = ofGetElapsedTimef() ; 
+            TransitionEventArgs args = TransitionEventArgs ( menuIndex , ofVec2f ( x , y ) , false ) ; 
+            ofNotifyEvent(PixelEvent::Instance()->playTransitionMovieEvent , args , this ) ; 
         }
-        
-        TransitionEventArgs args = TransitionEventArgs ( menuIndex , ofVec2f ( x , y ) , false ) ; 
-        ofNotifyEvent(PixelEvent::Instance()->playTransitionMovieEvent , args , this ) ; 
     }
     else
     {
@@ -283,7 +280,6 @@ void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args )
                 {
                     Tweenzor::add( &videoAlpha , 0.0f , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
                     playSubNode = true ;
-                    playVideoFlag = true ;
                     playVideo = true ;
                     nodes[i].bounceSelectedEffect( .55f ) ;
                 }
@@ -351,7 +347,6 @@ void ContentItem::timeOut()
     Tweenzor::add( &linesAlpha , linesAlpha , 1.0f , 0.0f , 1.0f , EASE_IN_QUAD ) ;
 
     float transOutSpeed  = 0.35f ;
-    Tweenzor::add( &glowAlpha , glowAlpha , -0.1 , 0.0f , transOutSpeed , EASE_IN_QUAD ) ;
 
     if ( state == 1 )
     {
@@ -367,7 +362,6 @@ void ContentItem::timeOut()
     }
 
     Tweenzor::add( &videoAlpha , 0.0f , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
-    playVideoFlag = true ;
     playVideo = true ;
 
     tier1Node = -4 ;
@@ -517,7 +511,7 @@ void ContentItem::drawContent()
     }
 
     ofEnableAlphaBlending () ;
-    ofSetColor ( 255 , 255 , 255 ) ;
+    ofSetColor ( 255 , 255 , 255 , 255 ) ;
     ofSetLineWidth( 3 ) ;
     if ( state == 1 )
     {

@@ -62,9 +62,6 @@ void testApp::setup()
         menuNodes[i].setRandomAngles ( 0.01f, PI * 2.0f  , 80 ) ;
     }
 
-    nodeGlow.loadImage ( ofToDataPath( "misc/module_glow.png" ) ) ;
-    nodeGlow.setAnchorPercent( 0.5f , 0.5f ) ;
-
     forwardTouchMinRatio = 0.7 ;
 
     mouseTouches = 0 ;
@@ -211,31 +208,17 @@ void testApp::draw(){
         ContentItem * iContent ;
         iContent = &menuNodes[i] ;
 
-        if ( iContent->playVideo == true )
+        if ( videos[i].isPlaying() == true ) 
         {
-            ofVideoPlayer * iVideo ;
-            iVideo = &videos[i] ;
             if ( iContent->playSubNode == true ) 
                 videos[i].draw(  iContent->videoPosition.x , iContent->videoPosition.y ) ; 
             else
-                videos[i].draw(  iContent->videoPosition.x , iContent->videoPosition.y , largeSize , largeSize ) ; 
+                videos[i].draw(  iContent->videoPosition.x , iContent->videoPosition.y , largeSize , largeSize ) ;
         }
     }
     glDisable ( GL_BLEND ) ;
     ofEnableAlphaBlending() ;
 
-    /*
-    for ( int i = 0 ; i < nItems ; i++ )
-    {
-        if ( menuNodes[i].state != 0 && menuNodes[i].state != 3 )
-        {
-            ofSetColor ( 255 , 255 , 255 , 255.0f * menuNodes[i].glowAlpha ) ;
-            float scale = menuNodes[i].scale ;
-            float glowSize = menuNodes[i].width * 2.0f ;
-            nodeGlow.draw ( menuNodes[i].x , menuNodes[i].y , glowSize , glowSize) ;
-        }
-    }
-     */
     ofSetColor ( 255 , 255 , 255 ) ;
 
     mutex.lock() ;
@@ -671,7 +654,7 @@ void testApp::parseXML()
     for(int i = 0; i < nItems; i++)
     {
         //Setup Paths and XML for creating it's subNodes
-        menuNodes[i] = ContentItem( DIR.getPath(i) , largeBGDir.getPath(i) , smallBGDir.getPath(i) , startLocs[i] , 0xFFFFFF, nItems-i , i ,menuFolderPath , XML , colors[i] , hitTestHub ) ;
+        menuNodes[i] = ContentItem( DIR.getPath(i) , largeBGDir.getPath(i) , smallBGDir.getPath(i) , startLocs[i] , nItems-i , i ,menuFolderPath , XML , hitTestHub ) ;
         
         //Combine these into setupSlideshow
         menuNodes[i].touchResetDelay = nodeDelay ;

@@ -50,6 +50,7 @@ class CrossFadeImage
     
         void draw ( ) 
         {
+            ofSetHexColor ( 0xFFFFFF ) ; 
             if ( inTransition == false && front != NULL ) 
                 front->draw( -front->width * 0.5f , -front->height * 0.5f , front->width , front->height ) ;
             else
