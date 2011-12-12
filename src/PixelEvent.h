@@ -10,6 +10,7 @@
 #define PIXELEVENT
 
 #include "PixelEventArgs.h"
+#include "TransitionEventArgs.h"
 
 class PixelEvent
 {
@@ -26,6 +27,9 @@ class PixelEvent
     
         ofEvent<PixelEventArgs> pixelDownEvent ; 
         ofEvent<PixelEventArgs> pixelUpEvent ;
+    
+    
+        ofEvent<TransitionEventArgs> playTransitionMovieEvent ; 
   
 };
 

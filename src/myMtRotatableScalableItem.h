@@ -8,7 +8,7 @@ class myMtRotatableScalableItem : public ofxMtActionsObject{
 
 public:
 	myMtRotatableScalableItem(){
-		franklinBook.loadFont("frabk.ttf", 26);
+		//franklinBook.loadFont("frabk.ttf", 26);
 		rotation = ofRandom(1.0f, PI*2.0f);
 	}
 

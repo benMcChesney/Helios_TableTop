@@ -21,9 +21,8 @@ void ContentItem::changeState ( int newState )
         case 0 :
             lastTouchTime = ofGetElapsedTimef() ;
             drawLines = true ;
-            fadeImage1 = &starterImage ;
-            fadeImage2 = &image ;
-            fadeImages( &starterImage  , &image ) ;
+            crossFade.fadeImages( &starterImage , &image , 0.5 , false ) ;
+            
             if ( state == 1 )
                 transitionOutTierMenu( 1 ) ;
             if ( state == 3 )
@@ -39,12 +38,7 @@ void ContentItem::changeState ( int newState )
             nextState = 1 ;
             lastTouchTime = ofGetElapsedTimef() ;
             transitionInTierMenu( 1 ) ;
-            //drawSubNode = false ;
 
-            fadeImage1 = &menuOpener ;
-            fadeImage2 = &image ;
-
-            fadeImages( &menuOpener  , &image ) ;
            // drawLines = false ;
             state = newState ;
             break ;
@@ -61,42 +55,30 @@ void ContentItem::changeState ( int newState )
 
 void ContentItem::setup( ) 
 {
-    //Allocate pointers :
-    tier2BackImage = new ofImage() ;
-    fadeImage1 = new ofImage() ;
-    fadeImage2 = new ofImage() ;
-    
-    bgScale = ( starterImage.width / bg.width ) * 0.95f ;
-    
+    //Allocate pointers 
     minSize = bg.width * .75 ;
     maxSize = bg.width * 1 ;
 
     float padding = bg.width * 0.5f ;
     bounds = ofRectangle ( padding , padding , ofGetWidth() +- padding , ofGetHeight() +- padding ) ;
-    
     contentWidth = image.width ;
     contentHeight = image.height ;
-    
     scale = 1.0f ;
-
     setPriorityLevel ( priorityLevel ) ;
     state = 0 ;
     nextState = -4 ;
     rotation = 0 ;
-
     drawLines = true ;
-
     
+    //Setup Nodes
     nodes = new NodeButton[nItems] ;
-    //Calculate angles between sub nodes
+    //Calculate angles between nodes
     float angleStep = ( PI * 2.0f ) / (float)17 ;
     float angleOffset = -angleStep ;
     float nScale = ( width - minSize ) / ( maxSize - minSize ) ;
     carouselRadius = width * radialFactor + ( -nScale * width * .0625f ) * radialFactor ; //width * radialFactor ;
     
     string introPath = XML.getValue( "tier1IntroFolder" , "no intros Path" ) ;
-    ofxDirList introsDIR ;
-    int numIntros = introsDIR.listDir( introPath ) ;
     hexInputID = hitTestHub->getColorfulUniqueHex() ; 
     
     hitTestHub->addItem( this ) ; 
@@ -111,20 +93,14 @@ void ContentItem::setup( )
         if ( i != nItems-1 )
         {
             theta = angleStep * (i-1) ;
-            nodes[i].setup( DIR.getPath(i) , node_bgPath , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
-                                XML.getValue( "menuItem:tier2" , "no name" , i ),
-                                XML.getValue( "menuItem:tier2Content" , "Nought content" , i ) ,
-                                introsDIR.getPath( i ) ) ;
+            nodes[i].setup( DIR.getPath(i) , node_bgPath , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ) ;
         }
         
         //Back Button
         else
         {
             theta = PI * 2.0f * 0.4f ;
-            nodes[i].setup( ofToDataPath("back_button_assets/icons_small_leaf.png") , ofToDataPath("back_button_assets/module_small_green.png") , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ,
-                                XML.getValue( "menuItem:tier2" , "no name" , i ),
-                                XML.getValue( "menuItem:tier2Content" , "Nought content" , i ) ,
-                                introsDIR.getPath( i ) ) ;
+            nodes[i].setup( ofToDataPath("back_button_assets/icons_small_leaf.png") , ofToDataPath("back_button_assets/module_small_green.png") , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ) ;
         }
         
         ofPoint endPos = ofPoint ( cos( theta ) * carouselRadius , sin ( theta ) * carouselRadius ) ;
@@ -243,8 +219,7 @@ void ContentItem::transitionComplete( float * args )
     if ( nextState > -1 )
         state = nextState ;
 
-      nextState = -4 ;
-    inTransition = false ;
+    nextState = -4 ;
 }
 
 void ContentItem::transitionOutComplete ( float * args )
@@ -266,6 +241,9 @@ void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args )
             changeState ( 1 ) ;
             lastTouchTime = ofGetElapsedTimef() ; 
         }
+        
+        TransitionEventArgs args = TransitionEventArgs ( menuIndex , ofVec2f ( x , y ) , false ) ; 
+        ofNotifyEvent(PixelEvent::Instance()->playTransitionMovieEvent , args , this ) ; 
     }
     else
     {
@@ -273,7 +251,11 @@ void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args )
         {
             if ( inputHex == nodes[i].hexInputID ) 
             {
-                lastTouchTime = ofGetElapsedTimef() ; 
+                if ( state != 0 && state != 3 )
+                    lastTouchTime = ofGetElapsedTimef() ;
+                
+                TransitionEventArgs args = TransitionEventArgs ( menuIndex , ofVec2f ( nodes[i].stagePos.x , nodes[i].stagePos.y ) , true ) ; 
+                ofNotifyEvent(PixelEvent::Instance()->playTransitionMovieEvent , args , this ) ; 
                 
                 //Back Button was selected
                 if ( i == nItems-1 )
@@ -288,10 +270,12 @@ void ContentItem::hexColorHandler ( const void * sender , PixelEventArgs &args )
                 else
                 {
                     cout << "Image button selected!" << endl ; 
+                    int lastIndex = tier1Node ; 
                     tier1Node = i ;
-                    fadeImage1 = &nodes[i].centerDetail ;
-                    fadeImage2 = &image ;
-                    fadeImages( &nodes[i].centerDetail , &image , 0.5f , 0.0f , true ) ;  
+                    if ( lastIndex < 0 ) 
+                        crossFade.fadeImages ( &nodes[i].centerDetail ,  &image ) ;
+                    else
+                        crossFade.fadeImages ( &nodes[i].centerDetail , &nodes[lastIndex].centerDetail ) ; 
                 }
 
                 //If a valid node was selected
@@ -354,13 +338,6 @@ void ContentItem::linesFadeComplete ( float * args )
 
 void ContentItem::timeOut()
 {
-    if ( state == 0 || state == 3 )
-    {
-        cout << "state 0 || 3 on TIMEOUT " << endl ;
-    }
-
-    playTimeOutSoundFlag = true ;
-
     //cout << "# " << menuIndex << " @ time out!" << endl ;
     inTransition = true ;
 
@@ -368,7 +345,6 @@ void ContentItem::timeOut()
     linesAlpha = 0.0f ;
     if ( Tweenzor::getTween( &linesAlpha ) != NULL )
     {
-//        Tweenzor::getTween( &linesAlpha )->removeListener( Tween::COMPLETE ) ;
         Tweenzor::removeCompleteListener(Tweenzor::getTween( &linesAlpha )) ; 
     }
 
@@ -384,43 +360,20 @@ void ContentItem::timeOut()
             float delay = (float)i * .04f ;
             Tweenzor::add( &nodes[i].x , nodes[i].endPoint.x , 0, delay, transOutSpeed, EASE_IN_QUAD );
             Tweenzor::add( &nodes[i].y , nodes[i].endPoint.y , 0, delay, transOutSpeed, EASE_IN_QUAD );
-            
-            ////if (  Tweenzor::getTween( &nodes[nItems-1].y ) != NULL )
-             ////       Tweenzor::removeCompleteListener(   Tweenzor::getTween( &nodes[nItems-1].y ) ) ; 
-            
-            //    Tweenzor::getTween( &nodes[nItems-1].y )->removeListener( Tween::COMPLETE ) ;
-            
-            //Tweenzor::getTween( &nodes[nItems-1].y )->addListener( Tween::COMPLETE, this, &ContentItem::timeOutTransitionComplete );
         }
         Tweenzor::addCompleteListener( Tweenzor::getTween( &nodes[nItems-1].y ) ,  this, &ContentItem::timeOutTransitionComplete ) ; 
-        fadeImage1 = &starterImage ;
         Tweenzor::add( &fadeImage1Scale , fadeImage1Scale , 0.25f , transOutSpeed , transOutSpeed , EASE_IN_QUAD ) ;
-        fadeImage2 = &image ;
-        fadeImages( &starterImage , &image , transOutSpeed ) ;
+        crossFade.fadeImages ( &starterImage , &image , transOutSpeed ) ; 
     }
 
-    
     Tweenzor::add( &videoAlpha , 0.0f , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
     playVideoFlag = true ;
     playVideo = true ;
 
     tier1Node = -4 ;
 
-   // cout << "starterImage width : " << starterImage.width << endl ;
-
-    //if ( width < minSize )
-    //{
-        Tweenzor::add( &minSize , minSize , starterImage.width , 0.0f , 0.75f , EASE_IN_QUAD ) ;
-        //minSize = starterImage.width ;
-
-        Tweenzor::add( &width , width , minSize ,  0.3f , 0.55f , EASE_IN_QUAD ) ;
-        Tweenzor::add( &height , height , minSize , 0.3f , 0.55f , EASE_IN_QUAD ) ;
-        Tweenzor::add( &bgScale , bgScale , 0.25f , 0.0f , 0.35f , EASE_IN_QUAD ) ;
-
-//        Tweenzor::getTween ( &height )->addListener( Tween::UPDATE , this , &ContentItem::onScaleUpdate ) ;
-    //}
-
-
+    Tweenzor::add( &minSize , minSize , starterImage.width , 0.0f , 0.75f , EASE_IN_QUAD ) ;
+    Tweenzor::add( &bgScale , bgScale , 0.5f , 0.0f , 0.35f , EASE_IN_QUAD ) ;
     setIsScalable( false ) ;
 }
 
@@ -431,96 +384,6 @@ void ContentItem::timeOutTransitionComplete( float * args)
     state = 0 ;
 
 }
-
-void ContentItem::onMultiTouchDown(float _x, float _y, int touchId, ofxMultiTouchCustomData *data )
-{
-
-}
-
-int ContentItem::forwardedTouchDown(float _x, float _y, int touchId, ofxMultiTouchCustomData *data )
-{
-    //Toggle off interactivity when in transitionins
-   if ( inTransition == true || isFading == true || autoTransitionFading == true )
-   {
-        return -4 ;
-   }
-
-    ofPoint screenPos = ofPoint ( _x * ofGetWidth() , _y * ofGetHeight() ) ;
-    int checkLength = nItems ;
-    if ( state == 1 )
-    {
-        /*
-        for ( int i = 0 ; i < checkLength ; i++ )
-        {
-            float dist = ofDist(screenPos.x, screenPos.y, nodes[i].stagePos.x , nodes[i].stagePos.y ) ;
-            if ( dist < nodes[i].width /2  )
-            {
-                if ( i == checkLength-1 )
-                {
-
-                    cout << "exit selected!" << endl ;
-                    nextState = 0 ;
-                    tier1Node = i ;
-                    timeOut() ;
-                    playSubNode = true ;
-                }
-                else
-                {
-                    tier1Node = i ;
-                    fadeImage1 = &nodes[i].centerDetail ;
-                    fadeImage2 = &image ;
-                    fadeImages( &nodes[i].centerDetail , &image , 0.5f , 0.0f , true ) ;
-                        
-                    return  tier1Node ;
-                }
-
-               if ( tier1Node > -2 )
-               {
-                    Tweenzor::add( &videoAlpha , 0.0f , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
-                    playSubNode = true ;
-                    playVideoFlag = true ;
-                    playVideo = true ;
-                    nodes[i].bounceSelectedEffect( .55f ) ;
-
-                }
-            }
-        }
-         */
-    }
-
-    if ( state != 0 && state != 3 )
-        lastTouchTime = ofGetElapsedTimef() ;
-
-
-    return -4 ;
-
-};
-
-//Fade two images together :
-//  image 1 starts faded out and fades in
-//  image 2 starts visible and fades out
-//&nodeChoices[i].assets[ nodeChoices[i].curItem ] ;
-void ContentItem::fadeImages ( ofImage * image1 , ofImage * image2 , float duration , float delay , bool tier2Fade )
-{
-    fadeImage1 = image1 ;
-    fadeImage2 = image2 ;
-    fadeAlpha1 = 0.0f ;
-    fadeAlpha2 = 1.0f ;
-    isFading = true ;
-
-    Tweenzor::add( &fadeAlpha1 , fadeAlpha1 , 1.0f , delay , duration , EASE_OUT_QUAD ) ;
-    Tweenzor::add( &fadeAlpha2 , fadeAlpha2 , 0.0f , delay , duration , EASE_IN_QUAD ) ;
-    Tweenzor::addCompleteListener ( Tweenzor::getTween( &fadeAlpha2 ) , this , &ContentItem::fadeComplete ) ; 
-    //Tweenzor::getTween( &fadeAlpha2 )->addListener( Tween::COMPLETE, this , &ContentItem::fadeComplete ) ;
-};
-
-void ContentItem::fadeComplete ( float * args )
-{
-    //Tweenzor::getTween( &fadeAlpha2 )->removeListener( Tween::COMPLETE ) ;
-    Tweenzor::removeCompleteListener( Tweenzor::getTween( &fadeAlpha2 ) ) ; 
-    image = * fadeImage1 ;
-    isFading = false ;
-};
 
 void ContentItem::setDebug ( bool d )
 {
@@ -540,14 +403,14 @@ void ContentItem::checkBounds()
     float _w = width * 0.425f ;
     if ( x < _w || x > ofGetWidth()+- _w || y < _w || y > ofGetHeight()+- _w )
     {
-        cout << "TOO CLOSE TO THE EDGE!" << endl ;
+
         if ( inBoundsTransition == false )
         {
+            cout << "Content Item bouncing off of the edge!" << endl ;
             if ( inFlickTransition == true )
             {
                 if ( Tweenzor::getTween( &y ) != NULL )
                     Tweenzor::removeCompleteListener ( Tweenzor::getTween( &y ) ) ; 
-                    //Tweenzor::getTween( &y )->removeListener ( Tween::COMPLETE ) ;
             }
             inBoundsTransition = true ;
 
@@ -561,9 +424,7 @@ void ContentItem::checkBounds()
             Tweenzor::add( &y , y , desiredPosition.y , 0.0f , .75f , EASE_OUT_QUAD ) ;
             if ( Tweenzor::getTween( &y ) != NULL )
                 Tweenzor::removeCompleteListener( Tweenzor::getTween( &y ) ) ; 
-               // Tweenzor::getTween( &y )->removeListener ( Tween::COMPLETE ) ;
             Tweenzor::addCompleteListener( Tweenzor::getTween( &y ) , this , &ContentItem::boundsTransitionComplete ) ; 
-//            Tweenzor::getTween( &y )->addListener( Tween::COMPLETE , this , &ContentItem::boundsTransitionComplete ) ;
         }
     }
 }
@@ -644,7 +505,7 @@ void ContentItem::drawContent()
 {
     if ( lastTouchTime > 0 && ofGetElapsedTimef() > lastTouchTime + touchResetDelay )
     {
-        if ( state == 1 || state == 2 )
+        if ( state == 1 )
         {
             if ( nextState != 0 )
             {
@@ -674,36 +535,19 @@ void ContentItem::drawContent()
 
     ofSetColor ( 255 , 255 , 255 ) ;
 
-    if ( state != 0 && state != 3 )
-    {
-        bg.draw ( -width * bgScale * 0.5f , -height * bgScale * 0.5f , width * bgScale , height * bgScale ) ;
-    }
-    else
-    {
-        ofSetHexColor( itemColor ) ;
-        float _scale = 1.0f ;
-        image.draw( -image.width * scale * _scale * 0.5f , -image.height * scale * _scale * 0.5f , image.width * scale * _scale , image.height * scale * _scale ) ;
-    }
+    ofPushMatrix() ; 
+        ofScale ( bgScale , bgScale , 1 ) ; 
+        bg.draw ( -width * 0.5f , -height * 0.5f , width , height ) ;
+    ofPopMatrix() ; 
+    ofSetHexColor( itemColor ) ;
 
-    if ( isFading == true )
-    {
-        ofSetColor( 255 , 255 , 255 , fadeAlpha1 * 255 ) ;
-        float _scale = scale * fadeImage1Scale ;
-        fadeImage1->draw ( -fadeImage1->width * _scale * .5 , -fadeImage1->height * _scale * .5 , fadeImage1->width * _scale , fadeImage1->height * _scale ) ;
+    if ( tier1Node < 0 ) 
+        image.draw( -image.width * scale  * 0.5f , -image.height * scale * 0.5f , image.width * scale , image.height * scale ) ;
 
-        ofSetColor( 255 , 255 , 255 , fadeAlpha2 * 255 ) ;
-        fadeImage2->draw ( -fadeImage2->width * _scale * .5 , -fadeImage2->height * _scale * .5 , fadeImage2->width * _scale , fadeImage2->height * _scale ) ;
-    }
-    else
-    {
-        if ( state != 0 && state != 3 )
-        {
-            ofSetHexColor( itemColor ) ;
-            image.draw( -image.width * scale * .5 , -image.height * scale * .5 , image.width * scale , image.height * scale ) ;
-        }
-    }
-
-
+    ofPushMatrix() ; 
+        ofScale ( scale , scale , 1 ) ; 
+        crossFade.draw() ; 
+    ofPopMatrix() ; 
 
     if ( debugActive == true )
     {
@@ -711,41 +555,7 @@ void ContentItem::drawContent()
         ofDrawBitmapString ( "STATE: " + ofToString( state ) , -width * .45 , -width * .45 ) ;
         ofDrawBitmapString ( "inTransition: " + ofToString( inTransition)  , -width * .45 , -width * .35 ) ;
         ofDrawBitmapString ( "Index #: " + ofToString( menuIndex )  , -width * .45 , -width * .25 ) ;
-        ofDrawBitmapString ( "isFading : " + ofToString( isFading )  , -width * .45 , -width * .15 ) ;
         ofDrawBitmapString ( "autoTrans: " + ofToString( autoTransitionFading )  , -width * .45 , -width * .05 ) ;
-
-
-        glPushMatrix();
-		glRotatef(180.0f*-rotation/PI, 0, 0, 1);
-
-        ofFill()  ;
-        ofSetColor ( 0 , 0 , 255 ) ;
-        ofCircle ( nextStagePos.x - x , nextStagePos.y - y , 40 ) ;
-
-        glPopMatrix();
-    }
-};
-
-void ContentItem::forwardedTouchUp( float x , float y , int touchId , ofxMultiTouchCustomData *data )
-{
-
-    if ( inTransition == true || isFading == true || autoTransitionFading == true )
-        return ;
-
-    if ( state == 0 || state == 3 )
-    {
-        playSelectedSoundFlag = true ;
-        cout << "state is changing from forwardTouchUp , state is 0 || 3 " << endl ;
-        if ( Tweenzor::getTween( &linesAlpha ) != NULL )
-        {
-            Tweenzor::removeCompleteListener ( Tweenzor::getTween( &linesAlpha ) ) ; 
-            //Tweenzor::getTween( &linesAlpha )->removeListener( Tween::COMPLETE ) ;
-        }
-
-        Tweenzor::add( &linesAlpha , linesAlpha , 0.0f , 0.0f , 1.0f , EASE_IN_QUAD ) ;
-        Tweenzor::addCompleteListener( Tweenzor::getTween( &linesAlpha ) , this , &ContentItem::linesFadeComplete ) ; 
-       // Tweenzor::getTween( &linesAlpha )->addListener( Tween::COMPLETE , this , &ContentItem::linesFadeComplete ) ;
-        changeState ( 1 ) ;
     }
 }
 
@@ -753,7 +563,6 @@ void ContentItem::startFlickTween( )
 {
     Tweenzor::add( &tweenValue , tweenValue , 1.0f , 0.0f , 0.25f , EASE_OUT_QUAD ) ;
     Tweenzor::addCompleteListener(  Tweenzor::getTween( &tweenValue ) , this , &ContentItem::onFlickTweenComplete ) ;
-//   Tweenzor::getTween( &tweenValue )->addListener( Tween::COMPLETE , this , &ContentItem::onFlickTweenComplete ) ;
 
 }
 
@@ -762,16 +571,6 @@ void ContentItem::onFlickTweenComplete( float * args )
     inFlickTransition = false ;
     cout << "FLICK IS FINISHED!" << endl ;
 }
-
-void ContentItem::onMultiTouchMoved(float x, float y, int touchId, ofxMultiTouchCustomData *data )
-{
-
-};
-
-void ContentItem::onMultiTouchUp(float x, float y, int touchId, ofxMultiTouchCustomData *data )
-{
-
-};
 
 float ContentItem::getMaxSize()
 {

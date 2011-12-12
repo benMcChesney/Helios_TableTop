@@ -23,14 +23,10 @@ public:
     int nodeIndex ; 
     
     ofImage centerDetail ; 
-    ofImage introImage ; 
-    
-    string folderPath ; 
-    string slideshowPath ; 
     
     ofPoint * fillaments ; 
     
-    float scale ;                   //size
+    float scale ;                   //uniform scale
     
     int hexInputID ;                //for ofxPixelHitTest
     
@@ -49,14 +45,14 @@ public:
     }
     */
     
-    void setup( string path , string bgPath ,  int _nodeIndex , string centerPath , string _folderPath, string _slideshowPath , string introPath )
+   //  DIR.getPath(i) , node_bgPath , i , XML.getValue ( "tier1DetailFolder" , "nought" )+"/"+DIR.getName(i) ) ;
+    void setup( string path , string bgPath ,  int _nodeIndex , string centerPath )
     {
         bounceTime = 0.0f ; 
         scale = 1.0f ; 
         image = new ofImage() ; 
         image->loadImage( path ) ; 
         bg.loadImage ( bgPath ) ; 
-        introImage.loadImage ( introPath ) ; 
         
         bg.setAnchorPercent( 0.5f , 0.5f ) ; 
         image->setAnchorPercent( 0.5f , 0.5f ) ; 
@@ -74,8 +70,6 @@ public:
         centerDetail.loadImage( centerPath ) ; 
         setSize( image->width , image->height ) ; 
         nodeIndex = _nodeIndex ; 
-        folderPath = _folderPath ; 
-        slideshowPath = _slideshowPath ; 
 
 		col.r = 1 ; 
 		col.g = 1 ; 

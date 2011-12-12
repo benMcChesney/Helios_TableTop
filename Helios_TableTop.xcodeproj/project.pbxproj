@@ -224,6 +224,8 @@
 		D92F01D8148F2971003B96D9 /* PixelHitTestHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelHitTestHub.h; sourceTree = "<group>"; };
 		D92F01E0148F3613003B96D9 /* PixelEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelEvent.h; sourceTree = "<group>"; };
 		D92F01E1148F3970003B96D9 /* PixelEventArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelEventArgs.h; sourceTree = "<group>"; };
+		D9517FE01495B82B00CDA4F0 /* CrossFadeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossFadeImage.h; sourceTree = "<group>"; };
+		D96DE3851491BA4600CDACEC /* TransitionEventArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionEventArgs.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
@@ -627,6 +629,7 @@
 			children = (
 				D92F01E0148F3613003B96D9 /* PixelEvent.h */,
 				D92F01E1148F3970003B96D9 /* PixelEventArgs.h */,
+				D96DE3851491BA4600CDACEC /* TransitionEventArgs.h */,
 			);
 			name = Events;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				D92272AB148DD56700EEE104 /* NodeButton.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
+				D9517FE01495B82B00CDA4F0 /* CrossFadeImage.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

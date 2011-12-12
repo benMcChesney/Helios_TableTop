@@ -67,14 +67,6 @@ void testApp::setup()
 
     forwardTouchMinRatio = 0.7 ;
 
-    selectedSound.loadSound ( ofToDataPath("sound/bounce_in.mp3" ) ) ;
-    selectedSound.setMultiPlay( true ) ;
-    selectedSound.setVolume ( 0.45f ) ;
-
-    timeOutSound.loadSound ( ofToDataPath("sound/bounce_out.mp3" ) ) ;
-    timeOutSound.setMultiPlay ( true ) ;
-    timeOutSound.setVolume ( 0.35f ) ;
-
     mouseTouches = 0 ;
 
     lastMouseX = 0.0f ;
@@ -82,8 +74,9 @@ void testApp::setup()
     
     setupGUI() ; 
     
-    //Setup global event listener for if a child object gets selected
+    //Setup global event listener for if a on object is selected
     ofAddListener( PixelEvent::Instance()->pixelDownEvent , this , &testApp::hexColorHandler ) ;
+    ofAddListener( PixelEvent::Instance()->playTransitionMovieEvent , this , &testApp::videoTransitionHandler ) ; 
 }
 
 void testApp::hexColorHandler ( const void * sender , PixelEventArgs &args ) 
@@ -91,9 +84,34 @@ void testApp::hexColorHandler ( const void * sender , PixelEventArgs &args )
     //cout << "HEX COLOR HANDLER ! " << endl ; 
 }
 
+void testApp::videoTransitionHandler ( const void * sender , TransitionEventArgs &args ) 
+{
+ //   TransitionEventArgs args = TransitionEventArgs ( menuIndex , ofVec2f ( x , y ) , true ) ; 
+    int menuIndex = args.menuIndex ; 
+    ofVideoPlayer * iVideo ;
+    iVideo = &videos[menuIndex] ;
+    
+    menuNodes[menuIndex].videoPosition = args.position ;
+    menuNodes[menuIndex].playSubNode = args.playSubNode ;  
+    iVideo->play() ; 
+    
+    if ( args.playSubNode == true ) 
+    {
+        iVideo->setSpeed( 1.75f ) ; 
+    }
+    else
+    {
+        iVideo->setSpeed( 1.0f ) ; 
+    }
+    
+    iVideo->setPosition ( 0.0f ) ; 
+
+}
+
 //--------------------------------------------------------------
 void testApp::update()
 {
+    //Timeout state when the table is inActive for a time
     if ( isTouchIdle == false && ofGetElapsedTimef() > lastTouchTime + touchTimeDelay )
         toggleIdle() ;
 
@@ -104,21 +122,6 @@ void testApp::update()
     {
         menuNodes[i].onUpdate() ;
         videos[i].update() ;
-
-        if ( menuNodes[i].playSelectedSoundFlag == true )
-        {
-            selectedSound.play() ;
-            menuNodes[i].playSelectedSoundFlag = false ;
-            cout << "playing selected sound! " << endl ;
-        }
-        if ( menuNodes[i].playTimeOutSoundFlag == true )
-        {
-           // timeOutSound.setSpeed ( -0.5f ) ;
-            timeOutSound.play() ;
-            menuNodes[i].playTimeOutSoundFlag = false ;
-            cout << "playing time out sound! " << endl ;
-        }
-
     }
 
     //Idle Update
@@ -126,21 +129,24 @@ void testApp::update()
     {
         float minDistance = menuNodes[0].width ;
         int w = ofGetWidth() +- minDistance * 0.5f ;
-        int h = ofGetHeight() +- minDistance * 0.5 ;
+        int h = ofGetHeight() +- minDistance * 0.5f ;
+        
         for(int i = 0; i < nItems; i++)
         {
-            menuNodes[i].onUpdate() ;
             float _x = menuNodes[i].x ;
             float _y = menuNodes[i].y ;
             float speed = ( menuNodes[i].velocity.x + menuNodes[i].velocity.y ) * -.025f  ;
+            //Fake the rotation spinning based off of speed
             menuNodes[i].setRotation( menuNodes[i].getRotation() + speed ) ;
             for ( int a = 0 ; a < nItems ; a++ )
             {
+                //if two nodes are closer than their radius: they're colliding
                 float dist = ofDist ( _x , _y , menuNodes[a].x , menuNodes[a].y );
                 if ( a != i && dist < minDistance )
                 {
                     ofPoint iPos = ofPoint ( menuNodes[i].x , menuNodes[i].y ) ;
                     ofPoint aPos = ofPoint ( menuNodes[a].x , menuNodes[a].y ) ;
+                    //Change the velocities based on collision
                     ofPoint sub1 = iPos - aPos ;
                     sub1.limit ( .25f ) ;
                     menuNodes[i].velocity = sub1 ;
@@ -149,6 +155,7 @@ void testApp::update()
                     menuNodes[a].velocity = sub2 ;
                 }
             }
+            //Bounds checking
             if ( _x < minDistance * 0.5f  )
             {
                 menuNodes[i].velocity.x *= -1 ;
@@ -172,9 +179,7 @@ void testApp::update()
         }
     }
 
-
-    ofSoundUpdate() ;
-
+    //For debug flick speed
     lastMouseX = mouseX ;
     lastMouseY = mouseY ;
 }
@@ -191,13 +196,9 @@ void testApp::draw(){
             menuNodes[k].drawInputMap() ; 
         }
     hitTestHub->endFbo() ; 
-    
-    ofSetCircleResolution(125);
-    //ofSetLineResolution ( 65 ) ;
 
     ofSetColor ( 255 , 255 ,255 ) ;
     background.draw(0,0) ;
-
     drawNodeLines( ) ; 
    
     ofSetColor ( 255 , 255 , 255 ) ;
@@ -214,56 +215,16 @@ void testApp::draw(){
         {
             ofVideoPlayer * iVideo ;
             iVideo = &videos[i] ;
-            int indexToDraw = -4 ;
-
-            if ( iContent->playVideoFlag == true )
-            {
-                if ( iContent->playSubNode == true )
-                {
-                    cout << "play sub Node " << endl ; 
-                    iVideo->setSpeed ( 1.75f ) ;
-                    ofPoint subStagePos ;
-                    if ( iContent->state == 1 )
-                    {
-                        indexToDraw = ( iContent->tier1Node < 0 ) ? iContent->nItems-1 : iContent->tier1Node ;
-                        subStagePos = iContent->nodes[indexToDraw].stagePos ;
-                        cout << "state == 1 " << endl ; 
-                    }
-                    else
-                    {
-                        cout << "PlaySub Node state was not 1 " << endl ; 
-                    }
-                }
-                else
-                {
-                    iVideo->setSpeed ( 1.1f ) ;
-                }
-                iContent->playVideoFlag = false;
-                iVideo->setPosition ( 0.0f ) ;
-                iVideo->play() ;
-            }
-
-            if ( iContent->playSubNode == true )
-            {
-                ofPoint subStagePos ;
-                if ( iContent->state == 1 )
-                {
-                    indexToDraw = ( iContent->tier1Node < 0 ) ? iContent->nItems-1 : iContent->tier1Node ;
-                    subStagePos = iContent->nodes[indexToDraw].stagePos ;
-                    cout << "subStagePos : " << subStagePos << endl ; 
-                    iVideo->draw ( subStagePos.x , subStagePos.y ) ;
-                }
-            }
+            if ( iContent->playSubNode == true ) 
+                videos[i].draw(  iContent->videoPosition.x , iContent->videoPosition.y ) ; 
             else
-            {
-                cout << "not play sub node!" << endl ; 
-                iVideo->draw ( menuNodes[i].x , menuNodes[i].y , largeSize , largeSize ) ;
-            }
+                videos[i].draw(  iContent->videoPosition.x , iContent->videoPosition.y , largeSize , largeSize ) ; 
         }
     }
     glDisable ( GL_BLEND ) ;
     ofEnableAlphaBlending() ;
 
+    /*
     for ( int i = 0 ; i < nItems ; i++ )
     {
         if ( menuNodes[i].state != 0 && menuNodes[i].state != 3 )
@@ -274,7 +235,7 @@ void testApp::draw(){
             nodeGlow.draw ( menuNodes[i].x , menuNodes[i].y , glowSize , glowSize) ;
         }
     }
-
+     */
     ofSetColor ( 255 , 255 , 255 ) ;
 
     mutex.lock() ;
@@ -312,6 +273,7 @@ void testApp::drawNodeLines( )
     
     float numLinesPerNode =   nOutsideLines ;
     
+    //Need a way to get even *smoother* lines !
     ofEnableSmoothing() ;
     
     ofPoint menuPos ;
@@ -401,11 +363,9 @@ void testApp::drawNodeLines( )
                     thereCP = ofPoint ( targetPos.x + cos ( thereAngle ) * normalizedAnchorDistance2 , menuPos.y + sin ( thereAngle ) * normalizedAnchorDistance2 ) ;
                     ofBeginShape() ;
                     ofVertex(menuPos.x, menuPos.y) ;
-                    //      ofBezierVertex(hereCP.x, hereCP.y, thereCP.x, thereCP.y, targetPos.x, targetPos.y ) ;
                     ofBezierVertex(menuPos.x, menuPos.y, hereCP.x, hereCP.y, hereCP.x, hereCP.y ) ;
                     ofBezierVertex(hereCP.x, hereCP.y, thereCP.x, thereCP.y, targetPos.x, targetPos.y ) ;
                     ofEndShape() ;
-                    //  ofBezier( menuPos.x , menuPos.y , hereCP.x , hereCP.y , thereCP.x , thereCP.y , targetPos.x , targetPos.y ) ;
                 }
             }
         }
@@ -578,7 +538,6 @@ void testApp::tuioCursorRemoved(TuioCursor & tcur)
                  menuNodes[i].inBoundsTransition == false )
             {
                 menuNodes[i].inFlickTransition = true ;
-                //menuNodes[i].setIsDraggable( false ) ;
                 float speedAngle = 0.0f ;
                 ofPoint newPosition ;
                 float speedX , speedY , length ;

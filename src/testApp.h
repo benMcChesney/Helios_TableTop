@@ -118,9 +118,6 @@ public:
     //For hit detection and bouncing
     float forwardTouchMinRatio ;
 
-    //Sound
-    ofSoundPlayer selectedSound ;
-    ofSoundPlayer timeOutSound ;
 
     void setupGUI() ; 
     void parseXML() ; 
@@ -130,6 +127,7 @@ public:
     
     //Custom Event Handler
     void hexColorHandler ( const void * sender , PixelEventArgs &args ) ;
+    void videoTransitionHandler ( const void * sender , TransitionEventArgs &args ) ;
     
   //  ofPtr<PixelEvent> eventHub ; 
     

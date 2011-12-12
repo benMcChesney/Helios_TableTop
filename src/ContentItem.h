@@ -19,6 +19,7 @@
 #include "PixelHitTestHub.h"
 #include "CorePixelHitTest.h"
 #include "PixelEvent.h"
+#include "CrossFadeImage.h"
 
 //This class is the 5 main circles that float around on the main screen
 //It extends smallfly's awesome example
@@ -44,9 +45,11 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
 
         bool debugActive ;
 
+        
         bool playVideoFlag ;            //read by testApp to play movie from the beginning
         bool playSubNode ;              //play video behind subnode or behind main app
         float videoAlpha ;              //fade in  / out for transitions
+        ofVec2f videoPosition ; 
 
         // we will have a dynaimic number of nodes, based on the content of a directory:
         int 		  nItems;
@@ -64,18 +67,23 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         //Radius of the carousel
         float carouselRadius ;
 
+        /*
         //Image Fading Variables
         bool isFading ;
         ofImage * fadeImage1 ;
         ofImage * fadeImage2 ;
         float fadeAlpha1 ;
         float fadeAlpha2 ;
+              */
+        CrossFadeImage crossFade ; 
         float glowAlpha ;
-
+    
+    
+        
         ofPoint nextStagePos , prevStagePos ;   //position of UI Images compared to the stage
 
         //Assets
-        ofImage menuOpener ;
+       // ofImage menuOpener ;
         ofImage starterImage ;
         float tweenValue ;
         bool inTransition ;
@@ -83,7 +91,6 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         float buttonYOffset ;
 
         ofxXmlSettings  XML ;
-
         float radialFactor ;
 
         ofImage selectedNodeBG ;
@@ -92,20 +99,10 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         int menuNodeDrawTo ;
         int randomNodeDrawTo ;
 
-        float fadeButtonAlpha1 ;
-        float fadeButtonAlpha2 ;
         float fadeImage1Scale ;
 
-        //Interchangable backButton Image on tier2 back button
-        ofImage * tier2BackImage ;
-
-
         float * randomAngles ;
-
         ofRectangle bounds ;
-
-        bool playTimeOutSoundFlag ;
-        bool playSelectedSoundFlag ;
 
         bool inBoundsTransition ;
         bool inFlickTransition ;
@@ -116,6 +113,7 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
 
         ContentItem()
         {
+            crossFade = CrossFadeImage() ; 
             state = 0 ;
             touchResetDelay = 5.0f ;
             inTransition = false ;
@@ -131,38 +129,39 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
             //Initialized Variables
             inBoundsTransition = false ;
             inFlickTransition = false ;
-            playTimeOutSoundFlag = false ;
-            playSelectedSoundFlag = false ;
             glowAlpha = 0.0f ;
             fadeImage1Scale = 1.0f ;
             autoTransitionFading = false ;
             playSubNode = false ;
-            fadeButtonAlpha1 = 0.0f ;
-            fadeButtonAlpha2 = 0.0f ;
             videoAlpha = 0.0f ;
             radialFactor = .675f ;
-            hexColor = _hexColor ;
             lastTouchTime = -2  ;
             linesAlpha = 1.0f ;
             playVideo = false ;
-            buttonYOffset = 55 ;
-            tier1Node = -1 ;
-            inTransition = false ;
-            isFading = false ;
-            hitTestHub = _hitTestHub ; 
             debugActive = false ; 
-            setColor ( color ) ;
-
-            menuIndex = _menuIndex ; 
             
+            tier1Node = -2 ;
+
+            scale = 1.0f ; 
+            bgScale = 1.0f ; 
+            hexColor = _hexColor ;
+            hitTestHub = _hitTestHub ; 
+            menuIndex = _menuIndex ; 
             XML = _xml ;
             node_bgPath = _node_bgPath ;
+            
+            crossFade = CrossFadeImage() ; 
+            setColor ( color ) ;
          
+           // cout << "starterImage : " << filePath << endl ; 
+           // cout << "image : " << filePath << endl ; 
+           // cout << "bg : " << bgPath << endl ; 
             //Load some images
-            menuOpener.loadImage( "sustainable_Menu.png" ) ;
-            starterImage.loadImage ( filePath ) ;
-            image.loadImage ( filePath ) ;
+            starterImage.loadImage ( filePath ) ; 
+            image.loadImage ( filePath ) ;  
+            
             bg.loadImage( bgPath ) ;
+            bg.setAnchorPercent( 0.5 , 0.5 ) ; 
             
             setPosAndSize ( pos.x , pos.y ,  starterImage.width  , starterImage.height ) ;
                 
@@ -175,20 +174,16 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
     
         void drawInputMap() ; 
         void setRandomAngles ( float minAngle , float maxAngle , int num  );
-    void setup() ;
+        void setup() ;
 
         void changeState ( int newState ) ;
         void transitionInTierMenu( int tier ) ;
         void transitionOutTierMenu( int tier ) ;
         void transitionOutComplete ( float * args ) ;
 
-        void onMultiTouchDown(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL) ;
-        int forwardedTouchDown(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL) ;
-        void onMultiTouchMoved(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL) ;
-        void forwardedTouchUp(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL) ;
-        void onMultiTouchUp(float x, float y, int touchId, ofxMultiTouchCustomData *data = NULL) ;
         void drawContent() ;
         void onUpdate() ;
+        
 
         void fadeImages ( ofImage * image1 , ofImage * image2 , float duration = 0.5f , float delay = 0.0f , bool tier2Fade = false ) ;
         void fadeComplete ( float * args ) ;
@@ -206,25 +201,17 @@ class ContentItem : public myMtRotatableScalableItem , public CorePixelHitTest
         void delayIncrement ( float * args ) ;
         bool autoTransitionFading ;
 
-        float getRotation()
-        {
-            return rotation ;
-        }
-
-        void setRotation( float angle )
-        {
-            rotation = angle ;
-        }
+        float getRotation() { return rotation ; }
+        void setRotation( float angle ) { rotation = angle ; }
 
         float getMaxSize() ;
         void checkBounds() ;
+    
         void boundsTransitionComplete ( float * args ) ;
 
         void flickTransitionComplete ( float * args ) ;
         void startFlickTween( ) ;
         void onFlickTweenComplete ( float * args ) ;
-
-        float slideshowDelayTime ;
 
 
 
