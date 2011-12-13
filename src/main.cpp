@@ -5,8 +5,9 @@
 //========================================================================
 int main( ){
 
+    //Make this fullscreen to your resolution when using touch points
     ofAppGlutWindow window;
-	ofSetupOpenGL(&window, 1024,768, OF_WINDOW );			// <-------- setup the GL context
+	ofSetupOpenGL(&window, 1024 ,768, OF_WINDOW );			// <-------- setup the GL context
 
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN

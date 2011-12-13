@@ -5,11 +5,11 @@
     </SliderFloat_angleSpread>
     <SliderFloat_distance_from_Node>
         <name>distance from Node</name>
-        <value>59.508263</value>
+        <value>25.000000</value>
     </SliderFloat_distance_from_Node>
     <SliderFloat_number_of_connections>
         <name>number of connections</name>
-        <value>57.199997</value>
+        <value>0.000000</value>
     </SliderFloat_number_of_connections>
     <SliderFloat_angleSpread_offset>
         <name>angleSpread offset</name>
@@ -17,7 +17,7 @@
     </SliderFloat_angleSpread_offset>
     <SliderFloat_transparency>
         <name>transparency</name>
-        <value>99.449997</value>
+        <value>0.000000</value>
     </SliderFloat_transparency>
     <SliderFloat_bounds_Angle_Spread>
         <name>bounds Angle Spread</name>
@@ -29,15 +29,15 @@
     </SliderFloat_controlPoint_distance>
     <SliderFloat_bounds_number_of_connections>
         <name>bounds number of connections</name>
-        <value>46.799999</value>
+        <value>0.000000</value>
     </SliderFloat_bounds_number_of_connections>
     <SliderFloat_boundsAngle_offset>
         <name>boundsAngle offset</name>
-        <value>-0.606222</value>
+        <value>-2.827434</value>
     </SliderFloat_boundsAngle_offset>
     <SliderFloat_out_of_bounds_transparency>
         <name>out of bounds transparency</name>
-        <value>62.475002</value>
+        <value>0.000000</value>
     </SliderFloat_out_of_bounds_transparency>
     <Toggle_Flip_1st_Angle>
         <name>Flip 1st Angle</name>
@@ -49,11 +49,11 @@
     </Toggle_Flip_2nd_Angle>
     <SliderFloat_throwSpeed>
         <name>throwSpeed</name>
-        <value>83.450005</value>
+        <value>1.000000</value>
     </SliderFloat_throwSpeed>
     <SliderFloat_maxThrowDistance>
         <name>maxThrowDistance</name>
-        <value>160.099991</value>
+        <value>10.000000</value>
     </SliderFloat_maxThrowDistance>
     <SliderFloat_flickTweenTime>
         <name>flickTweenTime</name>

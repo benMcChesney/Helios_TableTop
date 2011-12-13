@@ -187,12 +187,13 @@ void testApp::draw(){
     //Draw input resolution
     ofDisableAlphaBlending() ; 
     ofSetColor ( 255 , 255 , 255 ) ; 
-    hitTestHub->beginFbo() ; 
+    //hitTestHub->beginFbo() and endFbo are not working as they should.
+    hitTestHub->drawBegin() ; 
         for ( int k = 0 ; k < nItems; k++ )
         {
             menuNodes[k].drawInputMap() ; 
         }
-    hitTestHub->endFbo() ; 
+    hitTestHub->drawEnd() ; 
 
     ofSetColor ( 255 , 255 ,255 ) ;
     background.draw(0,0) ;
