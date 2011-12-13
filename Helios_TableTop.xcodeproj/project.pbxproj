@@ -45,11 +45,6 @@
 		D9877F27149706EC005887DC /* TuioTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877EE6149706EB005887DC /* TuioTime.cpp */; };
 		D9877F28149706EC005887DC /* ofxTuioClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877EE8149706EB005887DC /* ofxTuioClient.cpp */; };
 		D9877F29149706EC005887DC /* ofxTuioServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877EEA149706EB005887DC /* ofxTuioServer.cpp */; };
-		D9877F2A149706EC005887DC /* liboscpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9877EFF149706EB005887DC /* liboscpack.a */; };
-		D9877F2B149706EC005887DC /* libOsc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9877F01149706EB005887DC /* libOsc.a */; };
-		D9877F2C149706EC005887DC /* oscpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9877F03149706EB005887DC /* oscpack.a */; };
-		D9877F2D149706EC005887DC /* oscpack.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = D9877F04149706EB005887DC /* oscpack.lib */; };
-		D9877F2E149706EC005887DC /* oscpackd.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = D9877F05149706EC005887DC /* oscpackd.lib */; };
 		D9877F2F149706EC005887DC /* Tween.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F0A149706EC005887DC /* Tween.cpp */; };
 		D9877F30149706EC005887DC /* Tweenzor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F0F149706EC005887DC /* Tweenzor.cpp */; };
 		D9877F6514970CB0005887DC /* PixelHitTestHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F6314970CB0005887DC /* PixelHitTestHub.cpp */; };
@@ -218,24 +213,6 @@
 		D9877EE9149706EB005887DC /* ofxTuioClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTuioClient.h; sourceTree = "<group>"; };
 		D9877EEA149706EB005887DC /* ofxTuioServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTuioServer.cpp; sourceTree = "<group>"; };
 		D9877EEB149706EB005887DC /* ofxTuioServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTuioServer.h; sourceTree = "<group>"; };
-		D9877EEF149706EB005887DC /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
-		D9877EF0149706EB005887DC /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
-		D9877EF1149706EB005887DC /* PacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketListener.h; sourceTree = "<group>"; };
-		D9877EF2149706EB005887DC /* TimerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerListener.h; sourceTree = "<group>"; };
-		D9877EF3149706EB005887DC /* UdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UdpSocket.h; sourceTree = "<group>"; };
-		D9877EF5149706EB005887DC /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
-		D9877EF6149706EB005887DC /* OscException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscException.h; sourceTree = "<group>"; };
-		D9877EF7149706EB005887DC /* OscHostEndianness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscHostEndianness.h; sourceTree = "<group>"; };
-		D9877EF8149706EB005887DC /* OscOutboundPacketStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscOutboundPacketStream.h; sourceTree = "<group>"; };
-		D9877EF9149706EB005887DC /* OscPacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscPacketListener.h; sourceTree = "<group>"; };
-		D9877EFA149706EB005887DC /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscPrintReceivedElements.h; sourceTree = "<group>"; };
-		D9877EFB149706EB005887DC /* OscReceivedElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscReceivedElements.h; sourceTree = "<group>"; };
-		D9877EFC149706EB005887DC /* OscTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscTypes.h; sourceTree = "<group>"; };
-		D9877EFF149706EB005887DC /* liboscpack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liboscpack.a; sourceTree = "<group>"; };
-		D9877F01149706EB005887DC /* libOsc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOsc.a; sourceTree = "<group>"; };
-		D9877F03149706EB005887DC /* oscpack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = oscpack.a; sourceTree = "<group>"; };
-		D9877F04149706EB005887DC /* oscpack.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = oscpack.lib; sourceTree = "<group>"; };
-		D9877F05149706EC005887DC /* oscpackd.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = oscpackd.lib; sourceTree = "<group>"; };
 		D9877F07149706EC005887DC /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		D9877F09149706EC005887DC /* ofxTweenzor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenzor.h; sourceTree = "<group>"; };
 		D9877F0A149706EC005887DC /* Tween.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tween.cpp; sourceTree = "<group>"; };
@@ -292,11 +269,6 @@
 				E4C2424710CC5A17004149E2 /* AppKit.framework in Frameworks */,
 				E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */,
 				E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */,
-				D9877F2A149706EC005887DC /* liboscpack.a in Frameworks */,
-				D9877F2B149706EC005887DC /* libOsc.a in Frameworks */,
-				D9877F2C149706EC005887DC /* oscpack.a in Frameworks */,
-				D9877F2D149706EC005887DC /* oscpack.lib in Frameworks */,
-				D9877F2E149706EC005887DC /* oscpackd.lib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,7 +565,6 @@
 				D9877EE9149706EB005887DC /* ofxTuioClient.h */,
 				D9877EEA149706EB005887DC /* ofxTuioServer.cpp */,
 				D9877EEB149706EB005887DC /* ofxTuioServer.h */,
-				D9877EEC149706EB005887DC /* oscpack */,
 			);
 			name = ofxTuioWrapper;
 			path = external_of_libs/ofxTuioWrapper;
@@ -616,87 +587,6 @@
 				D9877EE7149706EB005887DC /* TuioTime.h */,
 			);
 			path = core;
-			sourceTree = "<group>";
-		};
-		D9877EEC149706EB005887DC /* oscpack */ = {
-			isa = PBXGroup;
-			children = (
-				D9877EED149706EB005887DC /* include */,
-				D9877EFD149706EB005887DC /* lib */,
-			);
-			path = oscpack;
-			sourceTree = "<group>";
-		};
-		D9877EED149706EB005887DC /* include */ = {
-			isa = PBXGroup;
-			children = (
-				D9877EEE149706EB005887DC /* ip */,
-				D9877EF4149706EB005887DC /* osc */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		D9877EEE149706EB005887DC /* ip */ = {
-			isa = PBXGroup;
-			children = (
-				D9877EEF149706EB005887DC /* IpEndpointName.h */,
-				D9877EF0149706EB005887DC /* NetworkingUtils.h */,
-				D9877EF1149706EB005887DC /* PacketListener.h */,
-				D9877EF2149706EB005887DC /* TimerListener.h */,
-				D9877EF3149706EB005887DC /* UdpSocket.h */,
-			);
-			path = ip;
-			sourceTree = "<group>";
-		};
-		D9877EF4149706EB005887DC /* osc */ = {
-			isa = PBXGroup;
-			children = (
-				D9877EF5149706EB005887DC /* MessageMappingOscPacketListener.h */,
-				D9877EF6149706EB005887DC /* OscException.h */,
-				D9877EF7149706EB005887DC /* OscHostEndianness.h */,
-				D9877EF8149706EB005887DC /* OscOutboundPacketStream.h */,
-				D9877EF9149706EB005887DC /* OscPacketListener.h */,
-				D9877EFA149706EB005887DC /* OscPrintReceivedElements.h */,
-				D9877EFB149706EB005887DC /* OscReceivedElements.h */,
-				D9877EFC149706EB005887DC /* OscTypes.h */,
-			);
-			path = osc;
-			sourceTree = "<group>";
-		};
-		D9877EFD149706EB005887DC /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				D9877EFE149706EB005887DC /* linux */,
-				D9877F00149706EB005887DC /* osx */,
-				D9877F02149706EB005887DC /* win32 */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		D9877EFE149706EB005887DC /* linux */ = {
-			isa = PBXGroup;
-			children = (
-				D9877EFF149706EB005887DC /* liboscpack.a */,
-			);
-			path = linux;
-			sourceTree = "<group>";
-		};
-		D9877F00149706EB005887DC /* osx */ = {
-			isa = PBXGroup;
-			children = (
-				D9877F01149706EB005887DC /* libOsc.a */,
-			);
-			path = osx;
-			sourceTree = "<group>";
-		};
-		D9877F02149706EB005887DC /* win32 */ = {
-			isa = PBXGroup;
-			children = (
-				D9877F03149706EB005887DC /* oscpack.a */,
-				D9877F04149706EB005887DC /* oscpack.lib */,
-				D9877F05149706EC005887DC /* oscpackd.lib */,
-			);
-			path = win32;
 			sourceTree = "<group>";
 		};
 		D9877F06149706EC005887DC /* ofxTweenzor */ = {
