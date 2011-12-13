@@ -52,7 +52,7 @@
 		D9877F2E149706EC005887DC /* oscpackd.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = D9877F05149706EC005887DC /* oscpackd.lib */; };
 		D9877F2F149706EC005887DC /* Tween.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F0A149706EC005887DC /* Tween.cpp */; };
 		D9877F30149706EC005887DC /* Tweenzor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F0F149706EC005887DC /* Tweenzor.cpp */; };
-		D9877F5E14970B6E005887DC /* PixelHitTestHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F5714970B6E005887DC /* PixelHitTestHub.cpp */; };
+		D9877F6514970CB0005887DC /* PixelHitTestHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9877F6314970CB0005887DC /* PixelHitTestHub.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -245,10 +245,10 @@
 		D9877F0E149706EC005887DC /* TweenSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweenSelector.h; sourceTree = "<group>"; };
 		D9877F0F149706EC005887DC /* Tweenzor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tweenzor.cpp; sourceTree = "<group>"; };
 		D9877F10149706EC005887DC /* Tweenzor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tweenzor.h; sourceTree = "<group>"; };
-		D9877F5414970B6E005887DC /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		D9877F5614970B6E005887DC /* CorePixelHitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorePixelHitTest.h; sourceTree = "<group>"; };
-		D9877F5714970B6E005887DC /* PixelHitTestHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelHitTestHub.cpp; sourceTree = "<group>"; };
-		D9877F5814970B6E005887DC /* PixelHitTestHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelHitTestHub.h; sourceTree = "<group>"; };
+		D9877F6014970CB0005887DC /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D9877F6214970CB0005887DC /* CorePixelHitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorePixelHitTest.h; sourceTree = "<group>"; };
+		D9877F6314970CB0005887DC /* PixelHitTestHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelHitTestHub.cpp; sourceTree = "<group>"; };
+		D9877F6414970CB0005887DC /* PixelHitTestHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelHitTestHub.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
@@ -306,7 +306,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				D9877F3114970B6E005887DC /* ofxPixelHitTest */,
+				D9877F5F14970CB0005887DC /* ofxPixelHitTest */,
 				D9877E98149706EB005887DC /* ofxMSAInteractiveObject */,
 				D9877E9F149706EB005887DC /* ofxMultiTouch */,
 				D9877EA7149706EB005887DC /* ofxMultiTouchObject */,
@@ -724,22 +724,22 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		D9877F3114970B6E005887DC /* ofxPixelHitTest */ = {
+		D9877F5F14970CB0005887DC /* ofxPixelHitTest */ = {
 			isa = PBXGroup;
 			children = (
-				D9877F5414970B6E005887DC /* README */,
-				D9877F5514970B6E005887DC /* src */,
+				D9877F6014970CB0005887DC /* README */,
+				D9877F6114970CB0005887DC /* src */,
 			);
 			name = ofxPixelHitTest;
 			path = external_of_libs/ofxPixelHitTest;
 			sourceTree = "<group>";
 		};
-		D9877F5514970B6E005887DC /* src */ = {
+		D9877F6114970CB0005887DC /* src */ = {
 			isa = PBXGroup;
 			children = (
-				D9877F5614970B6E005887DC /* CorePixelHitTest.h */,
-				D9877F5714970B6E005887DC /* PixelHitTestHub.cpp */,
-				D9877F5814970B6E005887DC /* PixelHitTestHub.h */,
+				D9877F6214970CB0005887DC /* CorePixelHitTest.h */,
+				D9877F6314970CB0005887DC /* PixelHitTestHub.cpp */,
+				D9877F6414970CB0005887DC /* PixelHitTestHub.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -949,7 +949,7 @@
 				D9877F29149706EC005887DC /* ofxTuioServer.cpp in Sources */,
 				D9877F2F149706EC005887DC /* Tween.cpp in Sources */,
 				D9877F30149706EC005887DC /* Tweenzor.cpp in Sources */,
-				D9877F5E14970B6E005887DC /* PixelHitTestHub.cpp in Sources */,
+				D9877F6514970CB0005887DC /* PixelHitTestHub.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
