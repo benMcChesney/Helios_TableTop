@@ -289,7 +289,7 @@ void testApp::drawNodeLines( )
             
             for ( int p = 0 ; p < numLinesPerNode ; p++ )
             {
-                //Don't draw lines to itself and only if it's not selected
+                //Don't draw lines to itself and only if it's not been touched
                 if ( i != otherNodeIndex && menuNodes[otherNodeIndex].drawLines == true )
                 {
                     ofSetColor( 255 , 255 , 255 , alphaToUse * outerLinesAlpha ) ;
