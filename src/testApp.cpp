@@ -188,12 +188,14 @@ void testApp::draw(){
     ofDisableAlphaBlending() ; 
     ofSetColor ( 255 , 255 , 255 ) ; 
     //hitTestHub->beginFbo() and endFbo are not working as they should.
-    hitTestHub->drawBegin() ; 
+    if ( hitTestHub->beginFbo() == true ) 
+    {
         for ( int k = 0 ; k < nItems; k++ )
         {
             menuNodes[k].drawInputMap() ; 
         }
-    hitTestHub->drawEnd() ; 
+        hitTestHub->endFbo() ; 
+    }
 
     ofSetColor ( 255 , 255 ,255 ) ;
     background.draw(0,0) ;
@@ -447,7 +449,7 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-    hitTestHub->getHexAt( ofVec2f( x , y ) ) ; 
+//    hitTestHub->getHexAt( ofVec2f( x , y ) ) ; 
 }
 
 //--------------------------------------------------------------
@@ -489,19 +491,24 @@ void testApp::windowResized(int w, int h){
 
 void testApp::tuioCursorAdded(TuioCursor & tcur)
 {
-    ofPoint screenPos = ofPoint ( tcur.getX() * ofGetWidth() , tcur.getY() * ofGetHeight() ) ;
+    ofPoint screenPos = ofPoint ( (int)(tcur.getX() * ofGetWidth()) , (int)(tcur.getY() * ofGetHeight()) ) ;
 
-	ofxMultiTouchCustomDataSF multiTouchCustomData;
-	multiTouchCustomData.sessionID = tcur.getSessionID();
+ 
+	
 
-	mtActionsHub.touchDown(tcur.getX(), tcur.getY(), tcur.getCursorID(), &multiTouchCustomData);
+	
     
     int currentHex = hitTestHub->getHexAt( ofVec2f( screenPos.x , screenPos.y ) ) ; 
+    cout << "screenPos : " << screenPos << " :: currentHex " << currentHex << endl ; 
     if ( currentHex > -1 )
     {
         PixelEventArgs args = PixelEventArgs ( currentHex ) ;
         ofNotifyEvent( PixelEvent::Instance()->pixelDownEvent , args , this ) ; 
     }
+    
+    ofxMultiTouchCustomDataSF multiTouchCustomData;
+	multiTouchCustomData.sessionID = tcur.getSessionID();
+    mtActionsHub.touchDown(tcur.getX(), tcur.getY(), tcur.getCursorID(), &multiTouchCustomData);
     //forward the touch events to ofxMultiTouch for the InteractiveObjects
     //ofxMultiTouch.touchDown(tcur.getX(), tcur.getY(), tcur.getCursorID(), &multiTouchCustomData);
 }
@@ -517,7 +524,7 @@ void testApp::tuioCursorRemoved(TuioCursor & tcur)
         //Check input up for "flick" release event
         for ( int i = 0 ; i < nItems ; i++ ) 
         {
-            if ( currentHex = menuNodes[i].hexInputID && 
+            if ( currentHex == menuNodes[i].hexInputID && 
                  doFlick == true &&
                  menuNodes[i].inBoundsTransition == false )
             {
