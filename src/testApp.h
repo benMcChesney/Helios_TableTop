@@ -82,8 +82,8 @@ public:
     
     //debug //trace or display helpful developer stuff
     bool debug ;
-
-    ofColor * colors ;
+    bool drawInputOverlay ; 
+  
 
     bool firstTouch ;
 

@@ -11,6 +11,7 @@ void testApp::setup()
     hitTestHub = (ofPtr<PixelHitTestHub>) new PixelHitTestHub() ; 
     hitTestHub->setup( ofGetWidth() , ofGetHeight() , 0x000000 ) ; 
     doFlick = false ;
+    drawInputOverlay = false ; 
     speedRatio = 1.0f ;
 	ofSetVerticalSync(true);
 	mouseEnabled = true ;
@@ -187,7 +188,7 @@ void testApp::draw(){
     //Draw input resolution
     ofDisableAlphaBlending() ; 
     ofSetColor ( 255 , 255 , 255 ) ; 
-    //hitTestHub->beginFbo() and endFbo are not working as they should.
+    //hitTestHub->beginFbo() and endFbo start and end the input map being recorded
     if ( hitTestHub->beginFbo() == true ) 
     {
         for ( int k = 0 ; k < nItems; k++ )
@@ -237,10 +238,14 @@ void testApp::draw(){
 
     if ( hitTestHub->debugDraw == true ) 
     {
-        ofPushMatrix() ; 
-        ofTranslate( ofGetWidth() * .7 , ofGetHeight() * .65 , 0 ) ; 
-        hitTestHub->drawMap( ) ; 
-        ofPopMatrix() ; 
+        if ( drawInputOverlay == true ) 
+        {
+            hitTestHub->drawMap( 1.0f, 0.0f ) ; 
+        }
+        else
+        {
+            hitTestHub->drawMap() ; 
+        }
     }
     
     gui.draw();
@@ -439,6 +444,11 @@ void testApp::keyPressed(int key){
             else {
                 ofShowCursor() ;
             }
+    
+        case 'o':
+        case 'O':
+            drawInputOverlay = !drawInputOverlay ; 
+            break ; 
     }
 }
 
@@ -492,11 +502,6 @@ void testApp::windowResized(int w, int h){
 void testApp::tuioCursorAdded(TuioCursor & tcur)
 {
     ofPoint screenPos = ofPoint ( (int)(tcur.getX() * ofGetWidth()) , (int)(tcur.getY() * ofGetHeight()) ) ;
-
- 
-	
-
-	
     
     int currentHex = hitTestHub->getHexAt( ofVec2f( screenPos.x , screenPos.y ) ) ; 
     cout << "screenPos : " << screenPos << " :: currentHex " << currentHex << endl ; 
@@ -604,7 +609,7 @@ void testApp::setupGUI()
 void testApp::parseXML() 
 {
     //color pool
-    colors = new ofColor[3] ;
+    ofColor * colors = new ofColor[3] ;
 
     colors[0] = ofColor ( 0 , 110 , 183 ) ; 
     colors[1] = ofColor ( 245 , 124 , 33 ) ; 
