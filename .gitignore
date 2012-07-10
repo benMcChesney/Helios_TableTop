@@ -32,3 +32,14 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+
+*.depend  
+*.layout  
+*.mode1v3  
+*.pbxuser  
+  
+.svn/  
+obj/  
+bin/  
+build/  
+!data/  
